@@ -1,0 +1,41 @@
+/* Write your styles */
+body{
+	background-color: #dddddd;
+	text-align: center;
+	font-size: 15px;
+}
+header.topbar-color-custom{
+	background-color: #ffffff !important;
+}
+form[role = "search"] input{
+	height: 32px;
+	border-radius: 4px;
+	background: url('/image/search.png') no-repeat;
+	background-position:3% 50%;
+	padding-left: 30px;
+}
+button{
+	height: 35px;
+}
+.button-round-custom{
+	border-radius: 4px;
+}
+.div-custom{
+	width: 80%;
+	margin: auto auto;
+	margin-top: 20px;
+	border-radius: 4px;
+}
+ul.horizontal li{
+	float: left;
+	display: inline-block;
+	margin-left: 18px;
+	border-style: none;
+}
+p.default{
+	margin-bottom: 3px;
+	margin-top: 12px;
+}
+.div-color-white{
+   background: #ffffff;
+}
