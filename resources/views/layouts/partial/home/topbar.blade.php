@@ -1,4 +1,4 @@
-<header class="am-topbar topbar-color-custom">
+<header class="am-topbar topbar-color-custom am-padding-left-xl am-padding-right-xl">
   <h1 class="am-topbar-brand">
     <a href="#">NEU PHP</a>
   </h1>

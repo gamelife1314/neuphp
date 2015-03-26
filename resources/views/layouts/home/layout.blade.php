@@ -16,14 +16,25 @@
 
   @include('layouts.partial.home.topbar')
 
+  <script type="text/javascript">
+   jQuery(document).ready(function(){
 
+    $.AMUI.progress.start();
+    setTimeout(function(){
+      $.AMUI.progress.set(0.4);
+    },800);
+    setTimeout(function(){
+      $.AMUI.progress.done();
+    },1200);
+
+   });
+  </script>
 
   @yield('announce')
 
   @include('layouts.partial.home.bottombar')
 
   @include('layouts.partial.author')
-
 
 </body>
 </html>

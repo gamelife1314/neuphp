@@ -39,3 +39,6 @@ p.default{
 .div-color-white{
    background: #ffffff;
 }
+.div-author span{
+	color: #808080;
+}
