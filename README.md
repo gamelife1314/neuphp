@@ -20,7 +20,7 @@
 
 >*  然后执行命令`php artisan db:seed`，填充数据库，虚假数据，用于测试，到此项目配置完毕
 
->*  最后执行`php artisan serve`,开启服务，在浏览器地址栏中输入localhost:8000就可以看到项目咯
+>*  最后执行`php artisan serve`,开启服务，在浏览器地址栏中输入`localhost:8000`就可以看到项目咯
 
 
 ##项目介绍
