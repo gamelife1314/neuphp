@@ -42,3 +42,67 @@ p.default{
 .div-author span{
 	color: #808080;
 }
+.border-radius{
+	border-radius: 4px;
+}
+.width-80{
+	width: 80%;
+}
+img.avatars{
+	width: 48px;
+	height: 48px;
+}
+.am-text-muted{
+	color: #C0C0C0;
+}
+.am-text-default{
+	color: #242424;
+}
+div.home-excellent > div:last-child{
+	float: left !important;
+}
+div.community-u-body{
+	padding-right: 0px;
+	padding-left: 0px;
+}
+img.site-img{
+	width:150px;
+	height:44px;
+}
+.cursor{
+	cursor: pointer;
+}
+.a-mg-rt-5{
+	margin-right: -5px !important;
+}
+/*小屏幕样式*/
+@media screen and ( max-width: 640px){
+
+img.avatars{
+	width: 32px;
+	height: 32px;
+}
+
+.div-custom{
+	width: 98%;
+	margin: auto auto;
+	margin-top: 20px;
+	border-radius: 4px;
+}
+}
+/*中等屏幕*/
+
+@media (min-width: 641px) and (max-width: 1024px){
+
+img.avatars{
+	width: 36px;
+	height: 36px;
+}
+
+.div-custom{
+	width: 94%;
+	margin: auto auto;
+	margin-top: 20px;
+	border-radius: 4px;
+}
+}

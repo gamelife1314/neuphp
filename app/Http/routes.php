@@ -11,8 +11,47 @@
 |
 */
 
-Route::get('/', function(){
-	return view('layouts.home.index');
+//---------站点主页-----------
+Route::get('/', 'Home\HomeController@index');
+
+//.......首页导航-------------
+Route::group(['namespace' => 'Home'],function(){
+
+//------------------首页导航-------------------
+
+	Route::get('/',[
+        'as'  => 'home',
+		'uses' => 'HomeController@index']);
+
+   Route::get('/community/{arg?}/{pid?}',[
+   	    'as' => 'home.community',
+   	    'uses' => 'HomeController@community']);
+
+   Route::get('/wiki',[
+   	    'as' => 'home.wiki',
+   	    'uses' => 'HomeController@wiki']);
+
+   Route::get('/about',[
+   	     'as' => 'home.about',
+   	     'uses' => 'HomeController@about']);
+
+  Route::get('/member',[
+  	      'as' => 'home.member',
+  	      'uses' => 'HomeController@member']);
+
+  Route::get('/documents',[
+  	      'as' => 'home.documents',
+  	      'uses' => 'HomeController@documents']);
+
+//---------------结点导航或者结点查看-----------------------
+
+  Route::get('/nodes/{nid?}/{pid?}',[
+  	      'as' => 'read.node',
+  	      'uses' => 'NodeController@index']);
+
+  Route::get('/read/nodes/{nid?}/{pid?}',[
+          'as' => 'read.node',
+          'uses' => 'NodeController@index']);
 });
 
 

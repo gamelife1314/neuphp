@@ -21,6 +21,8 @@ class CreateTopicsTable extends Migration {
           $table->integer('node_id')->index();
           $table->boolean('is_excellent')->default(false)->index();
           $table->boolean('is_wiki')->default(false)->idnex();
+          $table->boolean('recommend')->default(false)->index();
+          $table->boolean('stick')->default(false)->index();
           $table->integer('reply_count')->default(0)->index();
           $table->integer('view_count')->default(0)->index();
           $table->integer('favorite_count')->default(0)->index();
@@ -38,7 +40,7 @@ class CreateTopicsTable extends Migration {
 	 */
 	public function down()
 	{
-		//
+		Schema::drop('topics');
 	}
 
 }

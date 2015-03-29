@@ -1,23 +1,30 @@
-## Laravel PHP Framework
+> **NEU PHP** 安装与介绍 
 
-[![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
-[![Total Downloads](https://poser.pugx.org/laravel/framework/downloads.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
-[![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
+###项目安装
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, queueing, and caching.
+*安装Apache，MySQL，php(5.4以上)
 
-Laravel is accessible, yet powerful, providing powerful tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
+*安装[composer](https://getcomposer.org/)
 
-## Official Documentation
+*安装[Git](http://git-scm.com/downloads/)[关于使用,请参考](http://www.bootcss.com/p/git-guide/)
 
-Documentation for the framework can be found on the [Laravel website](http://laravel.com/docs).
+*克隆项目
 
-## Contributing
+ >具体操作，参考上方的使用方法
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
+*切换到项目目录，执行命令`composer update`,下载必要的插件,需要国际网支持（可以使用[国内镜像](http://pkg.phpcomposer.com/)）
 
-### License
+*配置项目数据库，config\database.php
 
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+*继续在本目录下，执行命令`php artisan migrate`,创建数据库
+
+*然后执行命令`php artisan db:seed`，填充数据库，虚假数据，用于测试，到此项目配置完毕
+
+*最后执行`php artisan serve`,开启服务，在浏览器地址栏中输入localhost:8000就可以看到项目咯
+
+
+##项目介绍
+
+ **NEU PHP**的开发是为了本校童鞋学习php，laravel开发网站而提供一个交流平台，由于本人也在学习中，依然是一个菜鸟，敬请各路大神指教，谢谢
+
+  

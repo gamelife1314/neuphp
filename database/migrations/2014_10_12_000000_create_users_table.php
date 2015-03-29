@@ -27,6 +27,7 @@ class CreateUsersTable extends Migration {
 			$table->string('major')->nullable();
 			$table->string('introduction')->nullable();
 			$table->string('personal_website')->nullable();
+			$table->softDeletes();
 			$table->timestamps();
 		});
 	}
