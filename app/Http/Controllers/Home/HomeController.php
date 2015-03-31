@@ -2,6 +2,7 @@
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\BBS\Michelf\Markdown;
 
 use Illuminate\Http\Request;
 
@@ -101,9 +102,9 @@ class HomeController extends Controller {
 //计算出分页数目
         $pageNumber = ceil($topicCount / $pageSize);
 //获得公告内容
-    	$tips = \DB::table("tips")->first();
+    	$tips = \DB::table("tips")->get();
 //获得推荐内容
-    	$recommend = \DB::table('topics')->where('recommend','=','1')
+    	$recommend = \DB::table('topics')->where('is_right_recommend','=','1')
     	                                 ->orderBy('id','desc')
     	                                 ->select('id','title')
     	                                 ->take(5)
@@ -130,7 +131,11 @@ class HomeController extends Controller {
      */
     public function member()
     {
-
+      $bbsMember = \DB::table('users')->select('id','image_url','name')
+                                      ->orderBy('id','ASC')
+                                      ->get();
+      //dd($bbsMember);
+      return view('layouts.home.member')->with('bbsMember',$bbsMember);
     }
 
     /**
@@ -153,7 +158,10 @@ class HomeController extends Controller {
     */
    public function about()
    {
+     $abouts = \DB::table('abouts')->first()->body;
 
+     // dd(Markdown::defaultTransform($abouts));
+     return view('layouts.home.about')->with('abouts',Markdown::defaultTransform($abouts));
    }
 
    /**
@@ -166,6 +174,26 @@ class HomeController extends Controller {
       // dd($documents);
       return view('layouts.home.document')->with('documentTopics',$documents);
     }
+
+    /**
+     * [markdown description]
+     * @return [type] [description]
+     */
+    public function markdown()
+    {
+      $markdown = \DB::table('markdown')->first()->body;
+      return view('layouts.home.markdown')->with('markdown',Markdown::defaultTransform($markdown))
+                                          ->with('example',$markdown);
+    }
+
+   public function viewMarkdownResult(Request $request)
+   {
+     $markdownInput = $request->input('markdownInput');
+
+     $explainInput = Markdown::defaultTransform($markdownInput);
+
+     return view('layouts.home.result')->with('explainResult',$explainInput);
+   }
 	/**
 	 * Show the form for creating a new resource.
 	 *

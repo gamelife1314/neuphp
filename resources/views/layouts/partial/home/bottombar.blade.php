@@ -1,5 +1,5 @@
 <div class="am-panel am-panel-default div-custom div-color-white bottom-bar">
-	<div class="am-panel-hd am-kai">导航与链接&nbsp;&nbsp;<span class="am-icon-signal"></span> </div>
+	<div class="am-panel-hd am-kai">导航与链接</div>
 	<div class="am-g">
 	    <div class="am-u-sm-12 am-u-md-3 am-u-lg-2">
 	    		<p class="am-monospace default am-text-right">PHP</p>
@@ -66,10 +66,10 @@
 	    </div>
 	    <div class="am-u-sm-12 am-u-md-9 am-u-lg-10">
 	    		<ul class="am-list horizontal">
-		    		<li ><a class="am-text-muted">公告</a></li>
-		    		<li><a  class="am-text-muted">反馈</a></li>
-		    		<li><a  class="am-text-muted">社区维护</a></li>
-	    		    <li><a  class="am-text-muted">线下讨论</a></li>
+		    		<li><a href="/nodes/31">公告</a></li>
+		    		<li><a  href="/nodes/32">反馈</a></li>
+		    		<li><a  href="/nodes/33">社区维护</a></li>
+	    		    <li><a  href="/nodes/34">线下讨论</a></li>
 	    	   </ul>
 	    </div>
     </div>
@@ -79,10 +79,14 @@
 	    </div>
 	    <div class="am-u-sm-12 am-u-md-9 am-u-lg-10">
 	    		<ul class="am-list horizontal">
-		    		<li><a class="am-text-muted">书籍</a></li>
-		    		<li><a class="am-text-muted">工具</a></li>
-		    		<li><a class="am-text-muted">其他</a></li>
-	    		    <li><a class="am-text-muted">求职</a></li>
+		    		<li><a href="/nodes/38">书籍</a></li>
+		    		<li><a href="/nodes/36">工具</a></li>
+		    		<li><a href="/nodes/37">其他</a></li>
+	    		    <li><a href="/nodes/39">求职</a></li>
+	    		    <li><a href="/nodes/35">健康</a></li>
+	    		    <li><a href="/nodes/40">招聘</a></li>
+	    		    <li><a href="/nodes/41">创业</a></li>
+	    		    <li><a href="/nodes/42">移民</a></li>
 	    	   </ul>
 	    </div>
     </div>

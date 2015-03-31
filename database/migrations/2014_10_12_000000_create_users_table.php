@@ -16,6 +16,9 @@ class CreateUsersTable extends Migration {
 		{
 			$table->increments('id');
 			$table->string('name')->unique();
+			$table->string('real_name')->nullable();
+			$table->string('autograph')->default('愿有情人终成眷属')->nullable();
+			$table->string('github')->nullable();
 			$table->string('email')->unique()->index();
 			$table->string('password', 60);
 			$table->rememberToken()->nullable();
@@ -23,7 +26,8 @@ class CreateUsersTable extends Migration {
 			$table->string('image_url')->nullable();
 			$table->integer('topic_count')->default(0)->index();
 			$table->integer('reply_count')->default(0)->index();
-			$table->string('academy')->nullable();
+			$table->string('city')->nullable();
+			$table->string('university')->nullable();
 			$table->string('major')->nullable();
 			$table->string('introduction')->nullable();
 			$table->string('personal_website')->nullable();

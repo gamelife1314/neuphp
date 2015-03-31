@@ -52,6 +52,14 @@ img.avatars{
 	width: 48px;
 	height: 48px;
 }
+img.avatars-tp{
+	width: 64px;
+	height: 64px;
+}
+img.avatars-lg{
+	width: 128px;
+	height: 128px;
+}
 .am-text-muted{
 	color: #C0C0C0;
 }
@@ -75,6 +83,20 @@ img.site-img{
 .a-mg-rt-5{
 	margin-right: -5px !important;
 }
+.border-none{
+	border:none !important;
+}
+.inline-block{
+	display: inline-block !important;
+}
+.margin-top-0{
+	margin-top: 0px !important;
+}
+.margin-bottom-0{
+	margin-top: 0px !important;
+}
+
+
 /*小屏幕样式*/
 @media screen and ( max-width: 640px){
 
@@ -90,6 +112,9 @@ img.avatars{
 	border-radius: 4px;
 }
 }
+
+
+
 /*中等屏幕*/
 
 @media (min-width: 641px) and (max-width: 1024px){

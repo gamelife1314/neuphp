@@ -15,9 +15,9 @@ class NodeController extends Controller {
 	public function index($nid = 7, $pid = 1)
 	{
         //获得公告内容
-    	$tips = \DB::table("tips")->first();
+    	$tips = \DB::table("tips")->get();
         //获得推荐内容
-    	$recommend = \DB::table('topics')->where('recommend','=','1')
+    	$recommend = \DB::table('topics')->where('is_right_recommend','=','1')
     	                                 ->orderBy('id','desc')
     	                                 ->select('id','title')
     	                                 ->take(5)

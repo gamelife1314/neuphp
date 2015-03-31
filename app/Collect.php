@@ -2,8 +2,8 @@
 
 use Illuminate\Database\Eloquent\Model;
 
-class Reply extends Model {
+class Collect extends Model {
 
-	protected $table = 'replies';
+	protected $table = 'collects';
 
 }

@@ -27,7 +27,7 @@ class CreateTipsTable extends Migration {
      public function initialize()
      {
 
-      \DB::table('tips')->insert(['content' => 'welcome visit neuphp']);
+      \DB::table('tips')->insert([['content' => 'welcome visit neuphp'],['content' => 'Hellow World']]);
      }
 
 	/**

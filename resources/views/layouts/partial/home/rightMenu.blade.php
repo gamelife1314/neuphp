@@ -10,11 +10,17 @@
             	        <a href="http://elixir-cn.com/" target="_blank" title="ElixirChina"><img src="/image/flag/Elixircn.png" alt="ElixirChina" class="site-img am-img-thumbnail am-margin-top-sm border-radius"></a>
             	        <a href="http://golangtc.com/" target="_blank" title="GolangChina"><img src="/image/flag/Golangcn.png" alt="GolangChina" class="site-img am-img-thumbnail am-margin-top-sm border-radius"></a>
             	        <a href="https://ruby-china.org" target="_blank" title="RubyChina"><img src="/image/flag/Rubycn.png" alt="RubyChina" class="site-img am-img-thumbnail am-margin-top-sm border-radius"></a>
+                      <a href="https://phphub.org/" target="_blank" title="PHPHub"><img src="/image/flag/phphub.png" alt="PHPHub" class="site-img am-img-thumbnail am-margin-top-sm border-radius"></a>
           	      </div>
         	   </div>
              <div class="am-panel am-panel-default community-panel am-margin-top">
                 <div class="am-panel-hd"> <p class="am-panel-title am-kai">站点公告</p></div>
-                <div class="am-panel-bd am-text-warning am-text-sm am-sans-serif am-text-left" >{{ $tips->content }}</div>
+                <div class="am-panel-bd am-text-warning am-text-sm am-sans-serif am-text-left" >
+                     @foreach ($tips as $key => $value)
+                       <p>{{ $value->content }}</p>
+                     @endforeach
+
+                </div>
              </div>
              <div class="am-panel am-panel-default community-panel am-margin-top">
                 <div class="am-panel-hd"> <p class="am-panel-title am-kai">站长推荐</p></div>
@@ -32,6 +38,8 @@
                     <p>•&nbsp;会员数：{{ $siteInf->register_count }}&nbsp;人</p>
                     <p>•&nbsp;发帖数：{{ $siteInf->topic_count }}&nbsp;条</p>
                     <p>•&nbsp;回复数：{{ $siteInf->reply_count }}&nbsp;条</p>
-                    <p class="am-text-warning">•&nbsp;本版块：{{ $topicCount }}&nbsp;条</p>
+                    @if (isset($topicCount))
+                        <p class="am-text-warning">•&nbsp;本版块：{{ $topicCount }}&nbsp;条</p>
+                    @endif
                 </div>
              </div>

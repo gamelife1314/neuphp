@@ -21,7 +21,7 @@ Route::group(['namespace' => 'Home'],function(){
 
 	Route::get('/',[
         'as'  => 'home',
-		'uses' => 'HomeController@index']);
+		    'uses' => 'HomeController@index']);
 
    Route::get('/community/{arg?}/{pid?}',[
    	    'as' => 'home.community',
@@ -43,6 +43,14 @@ Route::group(['namespace' => 'Home'],function(){
   	      'as' => 'home.documents',
   	      'uses' => 'HomeController@documents']);
 
+  Route::get('/markdowm',[
+          'as' => 'home.markdown',
+          'uses' => 'HomeController@markdown']);
+
+   Route::post('/view/markdowm/result',[
+          'as' => 'home.viewMarkdownResult',
+          'uses' => 'HomeController@viewMarkdownResult']);
+
 //---------------结点导航或者结点查看-----------------------
 
   Route::get('/nodes/{nid?}/{pid?}',[
@@ -52,6 +60,23 @@ Route::group(['namespace' => 'Home'],function(){
   Route::get('/read/nodes/{nid?}/{pid?}',[
           'as' => 'read.node',
           'uses' => 'NodeController@index']);
+
+//----------------关于帖子------------------------
+  Route::get('/vote/topics/{tid}',[
+          'as'   => 'vote.topic',
+          'uses' => 'TopicController@vote']);
+
+  Route::get('/read/topics/{tid}',[
+          'as'   => 'read.topic',
+          'uses' => 'TopicController@show']);
+
+//-----------------关于User-------------------
+
+ Route::get('/read/users/{uid}',[
+          'uses' => 'UserController@index',
+          'as'   => 'read.user']);
 });
+
+
 
 

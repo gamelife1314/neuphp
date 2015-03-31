@@ -24,7 +24,7 @@
 					  		</div>
 					  		<div class="am-u-md-9 am-u-sm-9 am-text-left">
 					  			<div class="am-u-md-12 am-text-truncate">
-					  				<a href="/read/topics/{{ $singleTopic->id }}" class="am-text-default am-text-sm">{{ substr_replace ($singleTopic->title, '...',40)}}</a>
+					  				<a href="/read/topics/{{ $singleTopic->id }}" class="am-text-default am-text-sm">{{ $singleTopic->title}}</a>
 					  			</div>
 					  			<div class="am-u-md-12 am-text-muted am-text-xs am-text-truncate">
 						  			<a href="/vote/topics/{{ $singleTopic->id }}" class="am-text-muted"><span class="am-icon-thumbs-o-up">&nbsp;{{ $singleTopic->vote_count }}</span></a>&nbsp;•
