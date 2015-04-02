@@ -47,9 +47,12 @@ Route::group(['namespace' => 'Home'],function(){
           'as' => 'home.markdown',
           'uses' => 'HomeController@markdown']);
 
-   Route::post('/view/markdowm/result',[
+  Route::post('/view/markdowm/result',[
           'as' => 'home.viewMarkdownResult',
           'uses' => 'HomeController@viewMarkdownResult']);
+  Route::get('/login',[
+          'as' =>'login',
+          'uses' => 'HomeController@login']);
 
 //---------------结点导航或者结点查看-----------------------
 
@@ -75,6 +78,10 @@ Route::group(['namespace' => 'Home'],function(){
  Route::get('/read/users/{uid}',[
           'uses' => 'UserController@index',
           'as'   => 'read.user']);
+
+ Route::post('/regist',[
+          'as' => 'regist',
+          'uses' => 'UserController@create']);
 });
 
 

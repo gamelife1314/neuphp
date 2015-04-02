@@ -61,7 +61,7 @@ class TopicController extends Controller {
     	                                 ->get();
         //获得站点信息
         $siteInf = \DB::table('site_state')->first();
-
+        //返回需要的内容
         $returnTopics = \DB::table('topics')->where('topics.id', '=', $id)
                                            ->leftJoin('users','topics.user_id','=','users.id')
                                            ->leftJoin('nodes','topics.node_id', '=', 'nodes.id')
@@ -72,13 +72,23 @@ class TopicController extends Controller {
 
         $postTime = Common::calculateTopicTime(time() - strtotime($returnTopics[0]->created_at));
         $lastReplyTime = Common::calculateTopicTime(time() - strtotime($returnTopics[0]->updated_at));
-        // dd($returnTopics);
+        //获得本贴的回复信息
+        $replies = \DB::table('replies')->where('replies.topic_id', '=', $id)
+                                        ->leftJoin('users','users.id','=','replies.user_id')
+                                        ->orderBy('replies.id','desc')
+                                        ->select('replies.*','users.name as user_name','users.image_url as user_image_url')
+                                        ->paginate(10);
+        foreach ($replies as $key => $value) {
+        	$value->body = Markdown::defaultTransform($value->body);
+        	$value->replyTime = Common::calculateTopicTime(time() - strtotime($value->created_at));
+        }
 		return view('layouts.home.read_topic')->with("tips",$tips)
     	                                      ->with('recommend',$recommend)
     	                                      ->with('siteInf',$siteInf)
     	                                      ->with('returnTopics',$returnTopics)
     	                                      ->with('postTime',$postTime)
-    	                                      ->with('lastReplyTime',$lastReplyTime);
+    	                                      ->with('lastReplyTime',$lastReplyTime)
+    	                                      ->with('replies',$replies);
 	}
 
 	/**

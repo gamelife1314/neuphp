@@ -17,10 +17,11 @@ class CreateUsersTable extends Migration {
 			$table->increments('id');
 			$table->string('name')->unique();
 			$table->string('real_name')->nullable();
-			$table->string('autograph')->default('愿有情人终成眷属')->nullable();
+			$table->string('autograph')->default('世界，你好')->nullable();
 			$table->string('github')->nullable();
 			$table->string('email')->unique()->index();
 			$table->string('password', 60);
+			$table->boolean('active')->defalse(0);
 			$table->rememberToken()->nullable();
 			$table->boolean('is_banned')->default(false);
 			$table->string('image_url')->nullable();

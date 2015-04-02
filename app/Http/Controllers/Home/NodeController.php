@@ -2,7 +2,7 @@
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
+use App\BBS\Common\Common;
 use Illuminate\Http\Request;
 
 class NodeController extends Controller {
@@ -42,7 +42,10 @@ class NodeController extends Controller {
                                    ->skip(($pid - 1) * $pageSize)
                                    ->take($pageSize)
                                    ->get();
-        // dd($currentNode);
+        foreach ($returnTopics as  $value) {
+             $value->replyTime = Common::calculateTopicTime(time() - strtotime($value->created_at));
+        }
+        //dd($returnTopics);
         return view('layouts.home.node')->with("tips",$tips)
     	                                ->with('recommend',$recommend)
     	                                ->with('arg',$nid)

@@ -23,10 +23,7 @@
     </form>
 
     <div class="am-topbar-right">
-      <button class="am-btn am-topbar-btn am-btn-success button-round-custom">
-        <i class="am-icon-drupal"></i>
-        登录
-      </button>
+        <a href="/login" class="am-btn am-btn-secondary am-margin-top-sm border-radius am-padding-top-sm am-padding-bottom-xs"><i class="am-icon-drupal"></i>&nbsp;登录</a>
     </div>
   </div>
 </header>

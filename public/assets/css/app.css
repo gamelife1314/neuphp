@@ -43,7 +43,7 @@ p.default{
 	color: #808080;
 }
 .border-radius{
-	border-radius: 4px;
+	border-radius: 4px !important;
 }
 .width-80{
 	width: 80%;
@@ -95,7 +95,28 @@ img.site-img{
 .margin-bottom-0{
 	margin-top: 0px !important;
 }
-
+/*用于对laravel框架产生的分页按钮进行样式修饰*/
+div.laravel-pagination ul{
+	list-style: outside none none;
+}
+div.laravel-pagination ul > li{
+	display: inline-block;
+	float: left;
+	width: 35px;
+	height: 35px;
+	border: solid 1px;
+	border-color:#DDD;
+	text-align: center;
+}
+div.laravel-pagination ul > li a{
+	display: inline-block;
+	cursor: pointer;
+	vertical-align: middle;
+}
+div.laravel-pagination ul > li span{
+	display: inline-block;
+	vertical-align: middle;
+}
 
 /*小屏幕样式*/
 @media screen and ( max-width: 640px){

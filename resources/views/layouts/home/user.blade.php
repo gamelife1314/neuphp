@@ -10,12 +10,12 @@
 	  		            <p class="am-monospace default am-kai">{{ $userInf[0]->autograph }}</p>
 	  	           </div>
 	          </div>
-	          <div class="am-g  div-color-white border-radius am-margin-top">
+	          <div class="am-g  div-color-white border-radius am-margin-top" id="user">
 	                <div class="am-tabs" data-am-tabs>
 						    <ul class="am-tabs-nav am-nav am-nav-tabs am-kai">
 						        <li class="am-active"><a href="#tab1">个人信息</a></li>
 						        <li><a href="#tab2">发帖</a></li>
-						        <li><a href="#tab3">回复</a></li>
+						        <li><a href="#tab3">回复({{ $pagination->total() }})</a></li>
 						        <li><a href="#tab4">收藏</a></li>
 						    </ul>
 
@@ -56,6 +56,9 @@
 							    		   </li>
 							    		@endforeach
 							    	</ul>
+							    	<div class="laravel-pagination">
+								      	{!! $pagination->fragment('user')->render() !!}
+								      </div>
 							    </div>
 							    <div class="am-tab-panel am-fade" id="tab4">
 							    	<ul class="am-list">
@@ -172,6 +175,12 @@
   </div>
 
   @include('layouts.partial.author')
-
+  <script type="text/javascript">
+     jQuery(document).ready(function(){
+     	jQuery(".laravel-pagination").find('a').click(function(){
+     		jQuery("#tab3").trigger('click');
+     	});
+     });
+  </script>
  </body>
   @include('layouts.partial.html')

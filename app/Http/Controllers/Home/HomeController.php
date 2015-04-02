@@ -3,7 +3,7 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\BBS\Michelf\Markdown;
-
+use App\BBS\Common\Common;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller {
@@ -23,8 +23,10 @@ class HomeController extends Controller {
 		                                        ->select('topics.*','users.image_url as user_image_url','nodes.name as node_name','last_reply_user.name as last_user_name')
 		                                        ->take(20)
 		                                        ->get();
-       //dd($excellenTopics);
-		return view('layouts.home.index')->with('excellenTopics',$excellenTopics);
+    $postTime = Common::calculateTopicTime(time() - strtotime($excellenTopics[0]->updated_at));
+    //dd($excellenTopics);
+		return view('layouts.home.index')->with('excellenTopics',$excellenTopics)
+                                     ->with('postTime',$postTime);
 	}
 
 	/**
@@ -111,8 +113,10 @@ class HomeController extends Controller {
     	                                 ->get();
 //获得站点信息
     $siteInf = \DB::table('site_state')->first();
-    //dd($topicCount);
     $max_pid = $pageNumber > ($pid + 4) ? ($pid + 4) : $pageNumber;
+    foreach ($returnTopics as  $value) {
+     $value->replyTime = Common::calculateTopicTime(time() - strtotime($value->created_at));
+    }
     return view('layouts.home.community')->with("tips",$tips)
     	                                 ->with('recommend',$recommend)
     	                                 ->with('returnTopics',$returnTopics)
@@ -194,68 +198,13 @@ class HomeController extends Controller {
 
      return view('layouts.home.result')->with('explainResult',$explainInput);
    }
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
-		//
-	}
-
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store()
-	{
-		//
-	}
-
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id)
-	{
-		//
-	}
-
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
-	{
-		//
-	}
-
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id)
-	{
-		//
-	}
-
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
-		//
-	}
+  /**
+   * return view for login
+   * @return [type] [description]
+   */
+	public function login()
+  {
+   return view('layouts.home.login');
+  }
 
 }

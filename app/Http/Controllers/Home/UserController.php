@@ -5,6 +5,8 @@ use App\Http\Controllers\Controller;
 use \DB;
 use Illuminate\Http\Request;
 use App\BBS\Michelf\Markdown;
+use Illuminate\Validation\Factory;
+use Illuminate\Mail;
 
 class UserController extends Controller {
 
@@ -32,7 +34,7 @@ class UserController extends Controller {
 
         //获得该用户的回复
         $repliesID = DB::table('replies')->where('user_id','=',$id)
-                                         ->get();
+                                         ->paginate(8);
 
         $replies = [];
         foreach ($repliesID as $key => $value) {
@@ -45,14 +47,14 @@ class UserController extends Controller {
             $repliesID[$key]->body = Markdown::defaultTransform($repliesID[$key]->body);
             array_push($replies,array_merge(['reply' => $repliesID[$key]],['reply_topic' =>$topic[0]],['topic_user' =>$topic_user[0]]));
         }
-
          //取得用户的发帖
         $posts = DB::table('topics')->where('user_id','=',$id)
                                     ->get();
 		return view('layouts.home.user')->with('userInf',$userInf)
 		                                ->with('collectTopics',$collectTopics)
 		                                ->with('replies',$replies)
-		                                ->with('posts',$posts);
+		                                ->with('posts',$posts)
+		                                ->with('pagination',$repliesID);
 	}
 
 	/**
@@ -60,9 +62,19 @@ class UserController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function create()
+	public function create(Request $request, Factory $v)
 	{
-		//
+		$input = $request->all();
+		$rules = [
+        'email' =>['email','unique:users','required'],
+        'user_name' => ['unique:users,name','required','between:5,16'],
+        'password'  => ['alpha_dash','between:8,24','confirmed','required']
+		];
+		$validator = $v->make($input, $rules);
+		if($validator->fails()) {
+			$request->flashOnly('email','user_name');
+			return redirect('login')->withErrors($validator->errors());
+		}
 	}
 
 	/**

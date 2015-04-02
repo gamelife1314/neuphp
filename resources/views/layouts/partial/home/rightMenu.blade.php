@@ -14,7 +14,7 @@
           	      </div>
         	   </div>
              <div class="am-panel am-panel-default community-panel am-margin-top">
-                <div class="am-panel-hd"> <p class="am-panel-title am-kai">站点公告</p></div>
+                <div class="am-panel-hd"> <p class="am-panel-title am-kai">小贴士</p></div>
                 <div class="am-panel-bd am-text-warning am-text-sm am-sans-serif am-text-left" >
                      @foreach ($tips as $key => $value)
                        <p>{{ $value->content }}</p>

@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder {
                 'introduction'      => $faker->sentence(),
                 'email'            => $faker->email(),
                 'password'         => $faker->md5(),
-                'image_url'        => 'image/avatars/img'.rand(1,27).'.png',
+                'image_url'        => 'image/avatars/img'.rand(1,44).'.png',
                 'github'           => $faker->url(),
                 'city'             => $faker->city(),
                 'real_name'        => $faker->userName(),
@@ -69,11 +69,11 @@ class DatabaseSeeder extends Seeder {
         }
     }
 	//填充replies数据库
-	foreach (range(1,1040) as $index) {
+	foreach (range(1,10040) as $index) {
           App\Reply::create([
              'body' => $faker->paragraph($nbSentences = 3),
-             'user_id'           => rand(1,50),
-             'topic_id'          => rand(1,300)
+             'user_id'           => rand(1,100),
+             'topic_id'          => rand(1,700)
             ]);
     }
     //更新nodes数据表时间戳

@@ -7,16 +7,18 @@ namespace App\BBS\Common;
 class Common {
 
 	//日时间戳
-	static $dayTimestamp = 86400;
+	protected static $dayTimestamp = 86400;
 
     //时时间戳
-    static $hourTimestamp = 3600;
+    protected static $hourTimestamp = 3600;
 
     //月时间戳
-   static $monthTimestamp = 259200;
+   protected static $monthTimestamp = 259200;
 
    //年时间戳
-    static $yearTimestamp = 315360000;
+    protected static $yearTimestamp = 315360000;
+    //分时间戳
+    protected static $minutesTimestamp = 60;
 	/**
 	 *  计算发帖回帖距离当前的时间
 	 * @param  [type] $time [description]
@@ -32,10 +34,16 @@ class Common {
 			$result = floor($time / self::$monthTimestamp)." 个月";
 		}
 		else if ($time > self::$dayTimestamp) {
-            $result = floor($time / self::$dayTimestamp)." 日";
+            $result = floor($time / self::$dayTimestamp)." 天";
 		}
 		else if ($time > self::$hourTimestamp) {
             $result = floor($time / self::$hourTimestamp)." 小时";
+		}
+		else if ($time > self::$minutesTimestamp) {
+             $result = floor($time / self::$minutesTimestamp)." 分钟";
+		}
+		else {
+			return $time."秒";
 		}
 		return $result;
     }
