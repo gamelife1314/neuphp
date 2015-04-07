@@ -23,11 +23,11 @@
                 </div>
   		    </div>
           <div class="am-u-sm-12 am-u-md-12 am-u-lg-12 am-margin-top-lg  div-color-white  border-radius">
-             <div class="">
+            {{--  <div class=""> --}}
                  <a href="{{ route('home.post') }}" style="color: white" class="am-btn am-btn-success border-radius am-margin-top am-margin-bottom">
                         <i class="am-icon-eyedropper"></i>&nbsp;我要发帖
                    </a>
-             </div>
+            {{--  </div> --}}
           </div>
   		</div>
   	</div>
@@ -35,7 +35,7 @@
          <div class="am-tabs div-color-white border-radius" data-am-tabs>
               <ul class="am-tabs-nav am-nav am-nav-tabs">
                 <li class="am-active"><a href="#tab1" class="am-kai">资料修改</a></li>
-                <li><a href="#tab2" class="am-kai">提到我的&nbsp;<span class="am-badge am-badge-danger am-radius tips">{{ $tips_count }}</span></a></li>
+                <li><a href="#tab2" class="am-kai">提到我的&nbsp;<span class="am-badge am-badge-success am-radius tips">{{ $tips_count }}</span></a></li>
                 <li><a href="#tab3" class="am-kai">修改密码</a></li>
                 <li><a href="#tab4" class="am-kai">设置</a></li>
               </ul>

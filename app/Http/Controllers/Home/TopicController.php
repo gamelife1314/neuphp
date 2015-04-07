@@ -24,7 +24,7 @@ class TopicController extends Controller {
 
 	public function __construct()
 	{
-		 $this->middleware('auth',['only' => ['uploadTopicImage','voteUp','voteDown','collect','vote','favorite','voteReply','replyTopic','deleteReply']]);
+		 $this->middleware('auth',['only' => ['uploadTopicImage','voteUp','voteDown','collect','vote','favorite','voteReply','replyTopic','deleteReply','deleteTopic']]);
 	}
 
 	/**
@@ -128,7 +128,7 @@ class TopicController extends Controller {
 		$input = Request::all();
 
 		$rules = ['title' => ['unique:topics']];
-		$validator = \Validator::make($input, $rules);
+		$validator = Validator::make($input, $rules);
 
 		$returnInf = [];
 
@@ -154,7 +154,7 @@ class TopicController extends Controller {
 		   	if ($topic->id > 0) {
 
 		   		 Session::flash('operationResult','am-alert-success');
-		   		 array_push($returnInf,trans('bbs.Operated Successfully!'));
+		   		 array_push($returnInf,trans('bbs.Post Successfully!',['tid' => $topic->id]));
 
            Node::find($input['node_id'])->increment('topic_count');
 
@@ -215,6 +215,7 @@ class TopicController extends Controller {
         //获得本贴的回复信息
         $replies = DB::table('replies')->where('replies.topic_id', '=', $id)
                                         ->leftJoin('users','users.id','=','replies.user_id')
+                                        ->orderBy('replies.vote_count','desc')
                                         ->orderBy('replies.id','desc')
                                         ->select('replies.*','users.name as user_name','users.image_url as user_image_url')
                                         ->paginate(10);
@@ -307,11 +308,11 @@ class TopicController extends Controller {
 
       $input = Request::all();
 
-      $tipUser = explode(';',$input['tipUser']);
+      $tipUser = explode('@;;@',$input['tipUser']);
       array_pop($tipUser);
       $tipUser = Common::dealReplyContent($tipUser);
 
-      $reply =   explode(';',$input['replyContent']);
+      $reply =   explode('@;;@',$input['replyContent']);
       $replyContent = array_pop($reply);
       $reply = Common::dealReplyContent($reply);
 
@@ -341,7 +342,8 @@ class TopicController extends Controller {
        Reply::create(['body' => $replyTipsUser.Common::encodeTopicContent($replyContent),
        	              'user_id' => Auth::id(),
        	              'topic_id' => $input['topic_id'],
-       	              'is_block' => 0]);
+       	              'is_block' => 0,
+                      'tip_user' => implode(';',$finalTipUser)]);
 
         BBS::find(1)->increment('reply_count');
 
@@ -380,6 +382,19 @@ class TopicController extends Controller {
      $reply = Reply::find($rid);
      $reply_user_id = $reply->user_id;
      $reply_topic_id = $reply->topic_id;
+     $tipUsers = explode(';',$reply->tip_user);
+
+     foreach ($tipUsers as  $value) {
+
+     $tip = Tip::where('active_user_id', '=', Auth::id())->where('positive_user_id','=',$value)->first();
+
+        if ($tip->view == 0) {
+
+           User::find($value)->decrement('tips');
+          }
+
+          $tip->delete();
+    }
 
      User::find($reply_user_id)->decrement('reply_count');
 
@@ -391,8 +406,6 @@ class TopicController extends Controller {
 
      Topic::find($reply_topic_id)->decrement('reply_count');
 
-     User::find(Auth::id())->decrement('reply_count');
-
      $returnInf = [];
 
      Session::flash('operationResult','am-alert-success');
@@ -401,6 +414,53 @@ class TopicController extends Controller {
      Session::flash('returnInf',$returnInf);
 
      return redirect()->back();
+
+    }
+   /**
+    * used for delete topic
+    * @param  [type] $tid [description]
+    * @return [type]      [description]
+    */
+    public function deleteTopic($tid)
+    {
+      $topic = Topic::find($tid);
+
+      $topic->delete();
+
+      $user = User::find(Auth::id());
+      $user->decrement('topic_count');
+
+      BBS::find(1)->decrement('topic_count');
+
+      $replies = Reply::where('topic_id', '=',$tid)->get();
+      foreach ($replies as  $reply) {
+
+        User::find($reply->user_id)->decrement('reply_count');
+
+        BBS::find(1)->decrement('reply_count');
+
+        $reply->delete();
+      }
+
+      $tips =  Tip::where('topic_id','=',$tid)->get();
+      foreach ($tips as  $tip) {
+
+        if ($tip->view == 0) {
+
+          User::find($tip->positive_user_id)->decrement('tips');
+        }
+
+        $tip->delete();
+      }
+
+      $returnInf = [];
+
+      Session::flash('operationResult','am-alert-success');
+      $returnInf[] = trans('bbs.Delete Topic Successfully!');
+
+      Session::flash('returnInf',$returnInf);
+
+      return redirect()->back();
 
     }
 	/**

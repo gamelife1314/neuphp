@@ -48,7 +48,11 @@
 
   'Reply Successfully!' => "回复成功！",
 
-  '@user' => "[@:username](/read/users/:uid)",
+  '@user' => "[@:username](/read/users/:uid)  ",
 
   'Delete Reply Successfully!' => "删除回复成功！",
+
+  'Post Successfully!' => "发帖成功"."<a href='/read/topics/:tid'><span class='am-text-warning'>去查看</span></a>",
+
+  'Delete Topic Successfully!' => "删除帖子成功！"
   ];

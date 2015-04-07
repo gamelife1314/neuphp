@@ -17,6 +17,7 @@ class CreateRepliesTable extends Migration {
             $table->text('body');
             $table->integer('user_id')->index();
             $table->integer('topic_id')->index();
+            $table->string('tip_user')->nullable();
             $table->boolean('is_block')->index()->default(false);
             $table->integer('vote_count')->index()->default(0);
             $table->softDeletes();

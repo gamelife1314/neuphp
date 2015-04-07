@@ -72,7 +72,7 @@
                                                            <a href="{{ route('vote.reply',$element->id) }}"><span class="am-icon-thumbs-o-up" title="点赞"></span>&nbsp;{{ $element->vote_count }}</a>&nbsp;&nbsp;•&nbsp;&nbsp;
                                                            <a href="" class="reply" data-id='{{ $element->user_id }}' name="{{ $element->user_name }}"><span class="am-icon-reply" title="回复{{ $element->user_name }}"></span></a>
                                                            @if (Auth::id() == $element->user_id)
-                                                              &nbsp;&nbsp;•&nbsp;&nbsp;<a href="{{ route('delete.reply',$element->id) }}"><span class="am-icon-trash" title="删除"></span>&nbsp;</a>
+                                                              &nbsp;&nbsp;•&nbsp;&nbsp;<a href="{{ route('delete.reply',$element->id) }}"><span class="am-icon-trash" title="删除" onclick="return confirm('您确定要删除？');"></span>&nbsp;</a>
                                                            @endif
                                                       </div>
                                                   </div>
@@ -102,7 +102,7 @@
                                        <input type="hidden" name="topic_id" value="{{ $returnTopics[0]->id }}">
                                        <input type="hidden" name="topic_title" value="{{ $returnTopics[0]->title }}">
                                       <div class="am-form-group">
-                                         <textarea class="am-text-left am-kai" rows="5" name="replyContent" required>{{ old('replyContent') or "" }}</textarea>
+                                         <textarea class="am-text-left am-kai border-radius" rows="5" name="replyContent" required>{{ old('replyContent') or "" }}</textarea>
                                       </div>
                                       <button type="submit" class="am-btn am-btn-success am-round am-kai">回复</button>
                                  </form>
@@ -127,10 +127,10 @@
              var user_name = jQuery(this).attr('name');
 
              jQuery("input[name='tipUser']").val(function(index,value){
-               return value + "@" + user_id + ";";
+               return value + "@" + user_id + "@;;@";
              });
 
-             var new_ = '@' + user_id + ';';
+             var new_ = '@' + user_id + '@;;@';
              var textarea =  jQuery("textarea[name='replyContent']");
              var old = textarea.text();
              textarea.text(new_ + old);

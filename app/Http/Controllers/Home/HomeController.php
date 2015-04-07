@@ -1,11 +1,15 @@
 <?php namespace App\Http\Controllers\Home;
 
-use App\Http\Requests;
+use App\HttpRequests;
 use App\Http\Controllers\Controller;
 use App\BBS\Michelf\Markdown;
 use App\BBS\Common\Common;
-use Illuminate\Http\Request;
+use Illuminate\HttpRequest;
 use \Auth;
+use \DB;
+use \Session;
+use \Request;
+use App\Node;
 
 class HomeController extends Controller {
 
@@ -26,7 +30,7 @@ class HomeController extends Controller {
 
     //         Auth::logout();
 
-		$excellenTopics = \DB::table('topics') ->where('is_excellent','=', '1')
+		$excellenTopics = DB::table('topics') ->where('is_excellent','=', '1')
 		                                        ->leftJoin('users', 'topics.user_id', '=', 'users.id')
 		                                        ->leftJoin('nodes','topics.node_id', '=', 'nodes.id')
 		                                        ->leftJoin('users as last_reply_user','topics.last_reply_user_id','=','last_reply_user.id')
@@ -51,9 +55,9 @@ class HomeController extends Controller {
     	$pageSize = 20;
 //计算相应帖子数目
         if ($arg == "default" or $arg == "maxvote") {
-        	$topicCount = \DB::table('topics')->count();
+        	$topicCount = DB::table('topics')->count();
 	        if($arg == "default") {
-	        	$returnTopics = \DB::table('topics')->where('stick','=','1')
+	        	$returnTopics = DB::table('topics')->where('stick','=','1')
                                    ->orWhere('recommend','=','1')
                                    ->orWhere('title', '!=', ' ')
                                    ->leftJoin('users', 'topics.user_id', '=', 'users.id')
@@ -68,7 +72,7 @@ class HomeController extends Controller {
                                    ->get();
 	        }
 	        else {
-	        	$returnTopics = \DB::table('topics')->leftJoin('users', 'topics.user_id', '=', 'users.id')
+	        	$returnTopics = DB::table('topics')->leftJoin('users', 'topics.user_id', '=', 'users.id')
                                    ->leftJoin('nodes','topics.node_id', '=', 'nodes.id')
                                    ->leftJoin('users as last_reply_user','topics.last_reply_user_id','=','last_reply_user.id')
                                    ->orderBy('topics.vote_count','desc')
@@ -79,8 +83,8 @@ class HomeController extends Controller {
 	        }
         }
         else if ($arg == "recent") {
-        	$topicCount = \DB::table('topics')->count();
-        	$returnTopics = \DB::table('topics')->leftJoin('users', 'topics.user_id', '=', 'users.id')
+        	$topicCount = DB::table('topics')->count();
+        	$returnTopics = DB::table('topics')->leftJoin('users', 'topics.user_id', '=', 'users.id')
                                    ->leftJoin('nodes','topics.node_id', '=', 'nodes.id')
                                    ->leftJoin('users as last_reply_user','topics.last_reply_user_id','=','last_reply_user.id')
                                    ->orderBy('topics.id','desc')
@@ -90,8 +94,8 @@ class HomeController extends Controller {
                                    ->get();
         }
         else if ($arg == "excellent") {
-        	$topicCount = \DB::table('topics')->where('is_excellent','=', '1')->count();
-        	$returnTopics = \DB::table('topics')->where('is_excellent','=', '1')
+        	$topicCount = DB::table('topics')->where('is_excellent','=', '1')->count();
+        	$returnTopics = DB::table('topics')->where('is_excellent','=', '1')
                                    ->leftJoin('users', 'topics.user_id', '=', 'users.id')
                                    ->leftJoin('nodes','topics.node_id', '=', 'nodes.id')
                                    ->leftJoin('users as last_reply_user','topics.last_reply_user_id','=','last_reply_user.id')
@@ -102,8 +106,8 @@ class HomeController extends Controller {
                                    ->get();
         }
         else if($arg == "nobodyview") {
-        	$topicCount = \DB::table('topics')->where('view_count','=', '0')->count();
-        	$returnTopics = \DB::table('topics')->where('view_count','=', '0')
+        	$topicCount = DB::table('topics')->where('view_count','=', '0')->count();
+        	$returnTopics = DB::table('topics')->where('view_count','=', '0')
                                    ->leftJoin('users', 'topics.user_id', '=', 'users.id')
                                    ->leftJoin('nodes','topics.node_id', '=', 'nodes.id')
                                    ->leftJoin('users as last_reply_user','topics.last_reply_user_id','=','last_reply_user.id')
@@ -116,15 +120,15 @@ class HomeController extends Controller {
 //计算出分页数目
         $pageNumber = ceil($topicCount / $pageSize);
 //获得公告内容
-    	$tips = \DB::table("tips")->get();
+    	$tips = DB::table("tips")->get();
 //获得推荐内容
-    	$recommend = \DB::table('topics')->where('is_right_recommend','=','1')
+    	$recommend = DB::table('topics')->where('is_right_recommend','=','1')
     	                                 ->orderBy('id','desc')
     	                                 ->select('id','title')
     	                                 ->take(5)
     	                                 ->get();
 //获得站点信息
-    $siteInf = \DB::table('site_state')->first();
+    $siteInf = DB::table('site_state')->first();
     $max_pid = $pageNumber > ($pid + 4) ? ($pid + 4) : $pageNumber;
     foreach ($returnTopics as  $value) {
      $value->replyTime = Common::calculateTopicTime(time() - strtotime($value->created_at));
@@ -147,7 +151,7 @@ class HomeController extends Controller {
      */
     public function member()
     {
-      $bbsMember = \DB::table('users')->select('id','image_url','name','active')
+      $bbsMember = DB::table('users')->select('id','image_url','name','active')
                                       ->orderBy('id','ASC')
                                       ->get();
       //dd($bbsMember);
@@ -160,7 +164,7 @@ class HomeController extends Controller {
      */
     public function wiki()
     {
-      $wikiTopics =  \DB::table('topics')->where('is_wiki', '=', '1')
+      $wikiTopics =  DB::table('topics')->where('is_wiki', '=', '1')
                                          ->select('id','title')
                                          ->orderBy('id','DESC')
                                          ->get();
@@ -174,7 +178,7 @@ class HomeController extends Controller {
     */
    public function about()
    {
-     $abouts = \DB::table('abouts')->first()->body;
+     $abouts = DB::table('abouts')->first()->body;
 
      // dd(Markdown::defaultTransform($abouts));
      return view('layouts.home.about')->with('abouts',Markdown::defaultTransform($abouts));
@@ -186,7 +190,7 @@ class HomeController extends Controller {
     */
     public function documents()
     {
-      $documents = \DB::table('documents')->orderBy('id',"ASC")->get();
+      $documents = DB::table('documents')->orderBy('id',"ASC")->get();
       // dd($documents);
       return view('layouts.home.document')->with('documentTopics',$documents);
     }
@@ -197,14 +201,14 @@ class HomeController extends Controller {
      */
     public function markdown()
     {
-      $markdown = \DB::table('markdown')->first()->body;
+      $markdown = DB::table('markdown')->first()->body;
       return view('layouts.home.markdown')->with('markdown',Markdown::defaultTransform($markdown))
                                           ->with('example',$markdown);
     }
 
-   public function viewMarkdownResult(Request $request)
+   public function viewMarkdownResult()
    {
-     $markdownInput = $request->input('markdownInput');
+     $markdownInput = Request::input('markdownInput');
 
      $explainInput = Markdown::defaultTransform($markdownInput);
 
@@ -216,7 +220,7 @@ class HomeController extends Controller {
    */
 	public function login()
   {
-    \Session::put('urlBeforeLogin', \Request::header('referer'));
+    Session::put('urlBeforeLogin', Request::header('referer'));
     return view('layouts.home.login');
   }
   /**
@@ -226,17 +230,17 @@ class HomeController extends Controller {
   public function post()
   {
       //获得公告内容
-       $tips = \DB::table("tips")->get();
+       $tips = DB::table("tips")->get();
          //获得推荐内容
-       $recommend = \DB::table('topics')->where('is_right_recommend','=','1')
+       $recommend = DB::table('topics')->where('is_right_recommend','=','1')
                                        ->orderBy('id','desc')
                                        ->select('id','title')
                                        ->take(5)
                                        ->get();
         //获得站点信息
-        $siteInf = \DB::table('site_state')->first();
+        $siteInf = DB::table('site_state')->first();
 
-       $nodes = \App\Node::where('parent_node','!=','null')->get();
+       $nodes = Node::where('parent_node','!=','null')->get();
 
         return view('layouts.home.post_topic')->with("tips",$tips)
                                               ->with('recommend',$recommend)

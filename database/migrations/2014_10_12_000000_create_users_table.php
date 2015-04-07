@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration {
 			$table->string('password', 62);
 			$table->boolean('active')->defalse(0);
 			$table->integer('tips')->default(0);
+			$table->string('language')->default('zh-CN');
 			$table->rememberToken()->nullable();
 			$table->boolean('is_banned')->default(false);
 			$table->string('image_url')->nullable();

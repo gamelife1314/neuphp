@@ -37,9 +37,9 @@ class UserController extends Controller {
 
         //取得用户收藏帖子
         $collectTopicID = DB::table('collects')->where('collects.user_id', '=', $id)
-                                                   ->select('topic_id')
-
-                                                   ->get();
+                                               ->orderBy('id','desc')
+                                               ->select('topic_id')
+                                               ->get();
         $collectTopics = [];
         foreach ($collectTopicID as $key => $value) {
         	$topic = DB::table('topics')->where('id', '=', $value->topic_id)
@@ -71,7 +71,7 @@ class UserController extends Controller {
         }
 
          //取得用户的发帖
-        $posts = DB::table('topics')->where('user_id','=',$id)
+        $posts = DB::table('topics')->where('user_id','=',$id)->orderBy('id','desc')
                                     ->get();
 
         //获得用户最爱

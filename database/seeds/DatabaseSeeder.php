@@ -42,7 +42,7 @@ class DatabaseSeeder extends Seeder {
     //topics数据表
      foreach (range(1, 500) as $index) {
             App\Topic::create([
-                'title'             => $faker->sentence($nbWords = 6),
+                'title'             => "test topic-->".$faker->sentence($nbWords = 5),
                 'content'           => $faker->text($maxNbChars = 2000),
                 'user_id'           => rand(1,100),
                 'node_id'           => rand(7,42),

@@ -24,19 +24,24 @@
 		                   <div class="am-tabs-bd am-text-left">
 							    <div class="am-tab-panel am-fade am-in am-active am-text-middle" id="tab1">
 							    	   <img src="{{ asset( $userInf[0]->image_url ) }}" alt="{{ $userInf[0]->name }}" class="avatars am-radius am-img-thumbnail am-margin-right-lg">
-							    	   <a href="/read/users/{{ $userInf[0]->id }}"> {{ $userInf[0]->real_name }}</a>
+							    	   <a href="{{ route('read.user',$userInf[0]->id) }}"> {{ $userInf[0]->real_name }}</a>
 							    	   <hr data-am-widget="divider" style="" class="am-divider am-divider-default"/>
 							    	   <p>{{ $userInf[0]->introduction }}</p>
 							    </div>
 							    <div class="am-tab-panel am-fade" id="tab2">
-							          <ul class="am-list">
-									    	 @foreach ($posts as $element)
-									    	 	<li class="border-none">
-									    	 	    <a href="/read/topics/{{ $element->id }}" class="inline-block">{{ $element->title }}</a>
-									    	 	    <span class="am-fr am-text-muted">{{ $element->created_at }}</span>
-									    	 	</li>
-									    	 @endforeach
-								      </ul>
+								      	@foreach ($posts as $element)
+								      	 <div class="am-g am-margin-top-sm">
+								      		<div class="am-u-sm-8">
+								      			<a href="{{ route('read.topic',$element->id) }}" class="inline-block am-kai">{{ $element->title }}</a>
+                                                 @if (Auth::check() && Auth::id() == $userInf[0]->id)
+								      				&nbsp;&nbsp;•&nbsp;&nbsp;<a href="{{ route('delete.topic',$element->id) }}" class="am-text-muted" onclick="return confirm('您确定要删除？');"><span class="am-icon-trash inline-block" title="删除"></span></a>
+								      			 @endif
+								      		</div>
+								      		<div class="am-u-sm-3">
+								      			<span class="am-fr am-text-muted">{{ $element->created_at }}</span>
+								      		</div>
+								      		 </div>
+								      	@endforeach
 							    </div>
 							    <div class="am-tab-panel am-fade" id="tab3">
 							    	<ul class="am-list">
@@ -44,12 +49,12 @@
 							    			<li class="border-none">
 								    			<ol class="am-list">
 								    				<li class="border-none">
-										    				<a href="/read/users/{{ $element['topic_user']->id }}" class="inline-block am-text-success">{{ $element['topic_user']->name }}</a>：
-										    				<a href="/read/topics/{{ $element['reply_topic']->id }}" class="inline-block">{{ $element['reply_topic']->title }}</a>
+										    				<a href="{{ route('read.user',$element['topic_user']->id) }}" class="inline-block am-text-success">{{ $element['topic_user']->name }}</a>：
+										    				<a href="{{ route('read.topic',$element['reply_topic']->id) }}" class="inline-block">{{ $element['reply_topic']->title }}</a>
 								    				</li>
 								    				<li class="border-none am-margin-left">
-										    				<a href="/read/uses/{{ $userInf[0]->id }}" class="inline-block">{{ $userInf[0]->name }}</a>：
-										    				<a href="/read/users/{{ $element['topic_user']->name }}" class="inline-block am-margin-right-sm am-text-success">@ {{ $element['topic_user']->name }}</a>
+										    				<a href="{{ route('read.user',$userInf[0]->id) }}" class="inline-block">{{ $userInf[0]->name }}</a>：
+										    				<a href="{{ route('read.user',$element['topic_user']->id) }}" class="inline-block am-margin-right-sm am-text-success">@ {{ $element['topic_user']->name }}</a>
 										    				<span class="am-fr am-text-muted">{{ $element['reply']->created_at }}</span>
 										    				{!! $element['reply']->body !!}
 								    				</li>
@@ -66,7 +71,7 @@
 							    	<ul class="am-list">
 							    	     @foreach ($collectTopics as $element)
 							    	     	<li class="border-none">
-							    	     	     <a href="/read/topics/{{ $element->id }}" class="">{{ $element->title }}
+							    	     	     <a href="{{ route('read.topic',$element->id) }}" class="">{{ $element->title }}
                                                   <span class="am-fr am-text-muted">{{ $element->created_at }}</span>
 							    	     	     </a>
 							    	     	</li>
@@ -89,7 +94,7 @@
 									    	 @foreach ($posts as $element)
 									    	 	@if ($element->is_excellent or $element->recommend or $element->stick or $element->is_right_recommend )
 									    	 		<li class="border-none">
-									    	 		    <a href="/read/topics/{{ $element->id }}" class="">
+									    	 		    <a href="{{ route('read.topic',$element->id) }}" class="">
 										    	 		     @if ($element->is_excellent)
 										    	 		     	<span class="am-badge am-badge-success am-radius am-text-xs">精华</span>
 										    	 		     @endif

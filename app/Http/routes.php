@@ -85,6 +85,10 @@ Route::group(['namespace' => 'Home'],function(){
           'as'   => 'delete.reply',
           'uses' => 'TopicController@deleteReply']);
 
+  Route::get('/delete/topic/{tid}',[
+          'as' => 'delete.topic',
+          'uses' => 'TopicController@deleteTopic']);
+
   Route::post('/reply/topic',[
           'as'   => 'reply.topic',
           'uses' => 'TopicController@replyTopic']);
