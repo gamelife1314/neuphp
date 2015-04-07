@@ -2,8 +2,8 @@
 
 use Illuminate\Database\Eloquent\Model;
 
-class Node extends Model {
+class BBS extends Model {
 
-	protected $table = 'nodes';
+	protected $table = 'site_state';
 
 }

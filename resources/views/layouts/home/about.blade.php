@@ -3,6 +3,8 @@
  <body>
    @include('layouts.partial.home.topbar')
 
+   @include('layouts.partial.operationTips')
+
    <div class="am-g div-custom div-color-white">
         <div class="am-panel am-panel-default border-radius" style="margin-bottom:0px">
              <div class="am-panel-hd">

@@ -47,4 +47,44 @@ class Common {
 		}
 		return $result;
     }
+    /**
+     * [encodeTopicContent description]
+     * @return [type] [description]
+     */
+    public static function encodeTopicContent($content)
+    {
+      return preg_replace('/script/i','"script"',$content);
+    }
+   /**
+    * [dealReplyContent description]
+    * @return [type] [description]
+    */
+    public static function dealReplyContent($array)
+    {
+      $new = [];
+
+      foreach ($array as $key => $value) {
+      	$value = substr($value,1);
+      	if (!in_array($value, $new)){
+      		array_push($new,$value);
+      	}
+      }
+
+      return $new;
+    }
+    /**
+     * [compareAndCombine description]
+     * @return [type] [description]
+     */
+    public static function compareAndCombine($array1,$array2)
+    {
+      $new = [];
+
+      foreach ($array1 as $key => $value) {
+      	if(in_array($value, $array2))
+      		 $new[] = $value;
+      }
+
+      return $new;
+    }
 }

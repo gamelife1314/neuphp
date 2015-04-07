@@ -1,11 +1,10 @@
  @include('layouts.partial.header')
 
  <body>
-   @include('layouts.partial.home.topbar')
 
-   <p>亲爱的用户，我们给您发了份邮件，请您去邮箱查收并激活你的账号</p>
 
-   @include('layouts.partial.author')
+  <p><span style="color: red">{{ $user }}</span>&nbsp;您好:请通过以下链接对您的账户进行激活：<a href="{{ $url }}">{{ $url }}</a></p>
+
 
    </body>
   @include('layouts.partial.html')

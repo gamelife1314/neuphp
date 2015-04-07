@@ -60,6 +60,15 @@ img.avatars-lg{
 	width: 128px;
 	height: 128px;
 }
+img.nav-avatars{
+	width: 36px;
+	height: 36px;
+}
+img.gray{
+	-webkit-filter: grayscale(1);
+    filter:gray;
+    filter: grayscale(1);
+}
 .am-text-muted{
 	color: #C0C0C0;
 }
@@ -117,6 +126,38 @@ div.laravel-pagination ul > li span{
 	display: inline-block;
 	vertical-align: middle;
 }
+div.avatar-choose img{
+	cursor: pointer;
+}
+.image-choose-focus{
+	border:2px solid #00FF66;
+}
+.img-upload{
+	max-height: 350px;
+	max-width: 590px;
+}
+.bbs-preview{
+	border:2px solid #c0c0c0;
+	border-radius: 4px;
+	width: 600px;
+	height: 360px;
+	background-color: #DDDDDD;
+	border-style: groove;
+	padding: 5px;
+}
+.img-preview-lg{
+	height: 140px;
+	width: 140px;
+}
+.img-preview-md{
+	height: 80px;
+	width: 80px;
+}
+.img-preview-sm{
+	height: 64px;
+	width: 64px;
+}
+
 
 /*小屏幕样式*/
 @media screen and ( max-width: 640px){

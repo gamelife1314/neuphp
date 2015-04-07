@@ -27,6 +27,8 @@ class RouteServiceProvider extends ServiceProvider {
 		$router->pattern('pid','[0-9]+');
 		$router->pattern('tid','[0-9]+');
 		$router->pattern('uid','[0-9]+');
+		$router->pattern('rid','[0-9]+');
+		$router->model('user','App\User');
 
 		//
 	}

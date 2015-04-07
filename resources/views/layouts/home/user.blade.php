@@ -3,6 +3,8 @@
  <body>
   @include('layouts.partial.home.topbar')
 
+    @include('layouts.partial.operationTips')
+
   <div class="am-g div-custom ">
 	  	 <div class="am-u-sm-12 am-u-md-9 am-u-lg-9">
 	  	 	  <div class="am-g  div-color-white border-radius">
@@ -78,7 +80,7 @@
 	                <div class="am-tabs" data-am-tabs>
 						    <ul class="am-tabs-nav am-nav am-nav-tabs am-kai">
 						        <li class="am-active"><a href="#tab5">精华主题</a></li>
-						        <li><a href="#tab6">暂未开发</a></li>
+						        <li><a href="#tab6">楼主最爱</a></li>
 						    </ul>
 
 		                   <div class="am-tabs-bd am-text-left">
@@ -105,7 +107,19 @@
 									    	 @endforeach
 								      </ul>
 							    </div>
-							    <div class="am-tab-panel am-fade" id="tab6"></div>
+							    <div class="am-tab-panel am-fade" id="tab6">
+							    	@foreach ($favorites_topics as $index => $element)
+							    		<div class="am-g">
+							    			<div class="am-u-sm-1 am-text-right">{{ $index + 1}}.</div>
+							    			<div class="am-u-sm-8 am-text-left am-text-truncate">
+							    				<p class="am-kai"><a href="{{ route('read.user',$element['id']) }}">{{ $element['title'] }}</a></p>
+							    			</div>
+							    			<div class="am-u-sm-3 am-text-right">
+							    				{{  $element['favoriteTime'] }}
+							    			</div>
+							    		</div>
+							    	@endforeach
+							    </div>
 		                   </div>
 	                 </div>
               </div>

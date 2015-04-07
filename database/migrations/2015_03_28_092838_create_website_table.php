@@ -18,7 +18,7 @@ class CreateWebsiteTable extends Migration {
             $table->integer('register_count')->default(0);
             $table->integer('topic_count')->default(0);
             $table->integer('reply_count')->default(0);
-            $table->integer('image_count')->default(0);
+            $table->integer('avatars_count')->default(0);
             $table->timestamps();
 		});
 		self::initialize();
@@ -32,7 +32,7 @@ class CreateWebsiteTable extends Migration {
     	\DB::table('site_state')->insert(['day' => 'today',
     		                              'register_count' => '120',
     		                              'topic_count' =>'679',
-    		                              'image_count' => '345',
+    		                              'avatars_count' => '44',
     		                              'reply_count' => '564']);
     }
 

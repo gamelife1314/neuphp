@@ -40,7 +40,7 @@ class DatabaseSeeder extends Seeder {
             ]);
         }
     //topics数据表
-     foreach (range(1, 700) as $index) {
+     foreach (range(1, 500) as $index) {
             App\Topic::create([
                 'title'             => $faker->sentence($nbWords = 6),
                 'content'           => $faker->text($maxNbChars = 2000),
@@ -53,7 +53,9 @@ class DatabaseSeeder extends Seeder {
                 'vote_count'        => rand(4,15),
                 'favorite_count'    => rand(6,12),
                 'is_wiki'           => rand(0,1),
-                'is_right_recommend' => rand(0,1)
+                'is_right_recommend' => rand(0,1),
+                'created_at'         =>date('Y-m-d H:i:s'),
+                'updated_at'        => date('Y-m-d H:i:s')
             ]);
         }
     for ($i = 10; $i < 30; $i++) {
@@ -69,11 +71,11 @@ class DatabaseSeeder extends Seeder {
         }
     }
 	//填充replies数据库
-	foreach (range(1,10040) as $index) {
+	foreach (range(1,2000) as $index) {
           App\Reply::create([
              'body' => $faker->paragraph($nbSentences = 3),
-             'user_id'           => rand(1,100),
-             'topic_id'          => rand(1,700)
+             'user_id'           => rand(1,60),
+             'topic_id'          => rand(1,500)
             ]);
     }
     //更新nodes数据表时间戳
@@ -84,7 +86,7 @@ class DatabaseSeeder extends Seeder {
 
     //建立收藏关系表
     foreach (range(1,500) as $index) {
-       \DB::table('collects')->insert(['topic_id' => rand(1,700),'user_id' => rand(1,100)]);
+       \DB::table('collects')->insert(['topic_id' => rand(1,500),'user_id' => rand(1,100)]);
     }
 	}
 

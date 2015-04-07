@@ -9,6 +9,9 @@
           	<p>{{ $error }}</p>
           @endforeach
    </div>
+
+    @include('layouts.partial.operationTips')
+
    <div class="am-g div-custom am-padding-bottom-xl div-color-white">
    	  <div class="am-usm-12 am-u-md-4 am-u-lg-4 am-padding-top-xl">
    	  	<img src="{{ asset('image/bbs.png') }} " alt="bbsIcon">
@@ -23,19 +26,19 @@
 
 			  <div class="am-tabs-bd" style="min-height: 256px">
 				    <div class="am-tab-panel am-fade am-in am-active am-text-left" id="tab1">
-                         <form class="am-form am-form-horizontal am-margin-top-lg">
+                         <form class="am-form am-form-horizontal am-margin-top-lg" method="post" action="{{ action('Home\UserController@login') }}">
                               <input type="hidden" name="_token" value="{{ csrf_token() }}">
 							  <div class="am-form-group">
 							    <label for="email" class="am-u-sm-2 am-form-label">电子邮件：</label>
 							    <div class="am-u-sm-10">
-							      <input type="email" name="emai" placeholder="email" class="border-radius">
+							      <input type="email" name="email" placeholder="email" class="border-radius">
 							    </div>
 							  </div>
 
 							  <div class="am-form-group">
 							    <label for="password" class="am-u-sm-2 am-form-label">密码：</label>
 							    <div class="am-u-sm-10">
-							      <input type="text" name="password" placeholder="password" class="border-radius">
+							      <input type="password" name="password" placeholder="password" class="border-radius">
 							    </div>
 							  </div>
 
@@ -43,7 +46,7 @@
 							    <div class="am-u-sm-offset-2 am-u-sm-10">
 							      <div class="checkbox">
 							        <label>
-							          <input type="checkbox"> 记住我
+							          <input type="checkbox" name="remember"> 记住我
 							        </label>
 							      </div>
 							    </div>

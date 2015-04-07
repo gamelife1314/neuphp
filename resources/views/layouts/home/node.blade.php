@@ -3,6 +3,8 @@
 
  	  @include('layouts.partial.home.topbar')
 
+ 	   @include('layouts.partial.operationTips')
+
         <div class="am-g div-custom ">
 
              <div class="am-u-sm-12 am-u-md-9 am-u-lg-9  community-u-body border-radius" >

@@ -2,6 +2,9 @@
  <body>
  	  @include('layouts.partial.home.topbar')
 
+     @include('layouts.partial.operationTips')
+
+
 {{-- 本页面内容 --}}
 
    <div class="am-g div-custom ">

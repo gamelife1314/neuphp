@@ -23,7 +23,16 @@
     </form>
 
     <div class="am-topbar-right">
-        <a href="/login" class="am-btn am-btn-secondary am-margin-top-sm border-radius am-padding-top-sm am-padding-bottom-xs"><i class="am-icon-drupal"></i>&nbsp;登录</a>
+        @if (Auth::check() && !Auth::user()->is_banned)
+          <div class="am-margin-top-sm">
+            <a href="{{  route('read.user',Auth::id())  }}" class="am-margin-right-xs"><img src="{{ asset(Auth::user()->image_url) }}" alt="" class="am-radius am-img-thumbnail nav-avatars"></a>
+            <a href="{{  route('edit.user',Auth::id())  }}" class="am-margin-right-xs"><span class="am-badge am-round am-text-secondary" title="{{ Auth::user()->tips }}条提醒">{{ Auth::user()->tips }}</span></a>
+            <a href="{{  route('edit.user',Auth::id())  }}"><span  class="am-text-secondary">{{ Auth::user()->name }}</span></a>
+            <a href="{{  route('logout') }}" class="am-margin-left-xs"><span class="am-icon-sign-out" title="退出"></span></a>
+          </div>
+        @else
+           <a href="/login" class="am-btn am-btn-secondary am-margin-top-xs border-radius am-padding-top-sm am-padding-bottom-xs"><i class="am-icon-drupal"></i>&nbsp;登录</a>
+        @endif
     </div>
   </div>
 </header>

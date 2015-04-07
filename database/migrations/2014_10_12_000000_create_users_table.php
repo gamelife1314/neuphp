@@ -20,8 +20,9 @@ class CreateUsersTable extends Migration {
 			$table->string('autograph')->default('世界，你好')->nullable();
 			$table->string('github')->nullable();
 			$table->string('email')->unique()->index();
-			$table->string('password', 60);
+			$table->string('password', 62);
 			$table->boolean('active')->defalse(0);
+			$table->integer('tips')->default(0);
 			$table->rememberToken()->nullable();
 			$table->boolean('is_banned')->default(false);
 			$table->string('image_url')->nullable();

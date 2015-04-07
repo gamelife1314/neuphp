@@ -1,6 +1,9 @@
 @extends('layouts.home.layout')
 
 @section('announce')
+
+     @include('layouts.partial.operationTips')
+
 	<div class="am-g div-custom div-color-white">
   	<div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
   		<p class="am-monospace default"><strong>NEU PHP</strong> 专注为NEUer提供一个专业便捷的&nbsp;<strong>php&laravel</strong>&nbsp;交流平台</p>
@@ -29,7 +32,7 @@
 					  			<div class="am-u-md-12 am-text-muted am-text-xs am-text-truncate">
 						  			<a href="/vote/topics/{{ $singleTopic->id }}" class="am-text-muted"><span class="am-icon-thumbs-o-up">&nbsp;{{ $singleTopic->vote_count }}</span></a>&nbsp;•
 						  			<a href="/read/nodes/{{ $singleTopic->node_id }}" class="am-text-muted">{{ $singleTopic->node_name }}</a>&nbsp;•&nbsp;最后由&nbsp;
-						  			<a href="/read/users/{{  $singleTopic->last_reply_user_id}}" class="am-text-muted">{{ $singleTopic->last_user_name }}</a>&nbsp;•&nbsp;<span title="{{ $singleTopic->created_at }}">{{ $postTime }}</span>前
+						  			<a href="/read/users/{{  $singleTopic->last_reply_user_id}}" class="am-text-muted">{{ $singleTopic->last_user_name }}</a>&nbsp;•&nbsp;<span title="{{ $singleTopic->created_at }}">{{ $singleTopic->postTime }}</span>前
 					  			</div>
 					  		</div>
 					  		<div class="am-u-md-1 am-u-sm-1 am-padding-top-sm am-padding-right-xs">

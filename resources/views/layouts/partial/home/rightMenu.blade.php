@@ -1,7 +1,7 @@
              <div class="post-topic div-color-white border-radius">
-            	   	<button   type="button" class=" am-btn am-btn-success am-margin-top am-margin-bottom border-radius">
-                       <i class="am-icon-eyedropper"></i>&nbsp;发布新帖
-                  </button>
+            	   <a href="{{ route('home.post') }}" style="color: white" class="am-btn am-btn-success border-radius am-margin-top am-margin-bottom">
+                        <i class="am-icon-eyedropper"></i>&nbsp;发布新帖
+                   </a>
         	   </div>
         	   <div class="am-panel am-panel-default community-panel am-margin-top">
           	     <div class="am-panel-hd"> <p class="am-panel-title am-kai">友情社区</p></div>

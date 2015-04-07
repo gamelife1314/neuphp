@@ -5,8 +5,14 @@ use App\Http\Controllers\Controller;
 use App\BBS\Michelf\Markdown;
 use App\BBS\Common\Common;
 use Illuminate\Http\Request;
+use \Auth;
 
 class HomeController extends Controller {
+
+    public function __construct()
+   {
+    $this->middleware('auth',['only' => ['post']]);
+   }
 
 	/**
 	 * Display a listing of the resource.
@@ -15,18 +21,24 @@ class HomeController extends Controller {
 	 */
 	public function index()
 	{
+
+    // if (Auth::check() && Auth::user()->is_banned)
+
+    //         Auth::logout();
+
 		$excellenTopics = \DB::table('topics') ->where('is_excellent','=', '1')
 		                                        ->leftJoin('users', 'topics.user_id', '=', 'users.id')
 		                                        ->leftJoin('nodes','topics.node_id', '=', 'nodes.id')
 		                                        ->leftJoin('users as last_reply_user','topics.last_reply_user_id','=','last_reply_user.id')
-		                                        ->orderBy('topics.id','ASC')
+		                                        ->orderBy('topics.id','DESC')
 		                                        ->select('topics.*','users.image_url as user_image_url','nodes.name as node_name','last_reply_user.name as last_user_name')
 		                                        ->take(20)
 		                                        ->get();
-    $postTime = Common::calculateTopicTime(time() - strtotime($excellenTopics[0]->updated_at));
-    //dd($excellenTopics);
-		return view('layouts.home.index')->with('excellenTopics',$excellenTopics)
-                                     ->with('postTime',$postTime);
+    foreach ($excellenTopics as  $value) {
+      $value->postTime = Common::calculateTopicTime(time() - strtotime($value->updated_at));
+    }
+
+		return view('layouts.home.index')->with('excellenTopics',$excellenTopics);
 	}
 
 	/**
@@ -71,7 +83,7 @@ class HomeController extends Controller {
         	$returnTopics = \DB::table('topics')->leftJoin('users', 'topics.user_id', '=', 'users.id')
                                    ->leftJoin('nodes','topics.node_id', '=', 'nodes.id')
                                    ->leftJoin('users as last_reply_user','topics.last_reply_user_id','=','last_reply_user.id')
-                                   ->orderBy('topics.created_at','desc')
+                                   ->orderBy('topics.id','desc')
                                    ->select('topics.*','users.image_url as user_image_url','nodes.name as node_name','last_reply_user.name as last_user_name')
                                    ->skip(($pid - 1) * $pageSize)
                                    ->take($pageSize)
@@ -135,7 +147,7 @@ class HomeController extends Controller {
      */
     public function member()
     {
-      $bbsMember = \DB::table('users')->select('id','image_url','name')
+      $bbsMember = \DB::table('users')->select('id','image_url','name','active')
                                       ->orderBy('id','ASC')
                                       ->get();
       //dd($bbsMember);
@@ -204,7 +216,31 @@ class HomeController extends Controller {
    */
 	public function login()
   {
-   return view('layouts.home.login');
+    \Session::put('urlBeforeLogin', \Request::header('referer'));
+    return view('layouts.home.login');
   }
+  /**
+   * [post topic view]
+   * @return [type] [description]
+   */
+  public function post()
+  {
+      //获得公告内容
+       $tips = \DB::table("tips")->get();
+         //获得推荐内容
+       $recommend = \DB::table('topics')->where('is_right_recommend','=','1')
+                                       ->orderBy('id','desc')
+                                       ->select('id','title')
+                                       ->take(5)
+                                       ->get();
+        //获得站点信息
+        $siteInf = \DB::table('site_state')->first();
 
+       $nodes = \App\Node::where('parent_node','!=','null')->get();
+
+        return view('layouts.home.post_topic')->with("tips",$tips)
+                                              ->with('recommend',$recommend)
+                                              ->with('siteInf',$siteInf)
+                                              ->with('nodes',$nodes);
+  }
 }
