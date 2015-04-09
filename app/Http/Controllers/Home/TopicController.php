@@ -24,7 +24,7 @@ class TopicController extends Controller {
 
 	public function __construct()
 	{
-		 $this->middleware('auth',['only' => ['uploadTopicImage','voteUp','voteDown','collect','vote','favorite','voteReply','replyTopic','deleteReply','deleteTopic']]);
+		 $this->middleware('auth',['only' => ['uploadTopicImage','voteUp','voteDown','collect','vote','favorite','voteReply','replyTopic','deleteReply','deleteTopic','editTopic','update']]);
 	}
 
 	/**
@@ -127,7 +127,8 @@ class TopicController extends Controller {
 	{
 		$input = Request::all();
 
-		$rules = ['title' => ['unique:topics']];
+		$rules = ['title' => ['unique:topics'],
+              'content' => ['min:20']];
 		$validator = Validator::make($input, $rules);
 
 		$returnInf = [];
@@ -140,7 +141,8 @@ class TopicController extends Controller {
               array_push($returnInf,$value);
           }
           Session::flash('operationResult','am-alert-warning');
-          Request::flashOnly('title','content');
+          Session::flash('returnInf',$returnInf);
+          return redirect()->back()->withInput(Request::flash());
 
 	   } else {
 
@@ -230,7 +232,8 @@ class TopicController extends Controller {
     	                                      ->with('returnTopics',$returnTopics)
     	                                      ->with('postTime',$postTime)
     	                                      ->with('lastReplyTime',$lastReplyTime)
-    	                                      ->with('replies',$replies);
+    	                                      ->with('replies',$replies)
+                                            ->with('emjoy_count',BBS::find(1)->emjoy_count);
 	}
 	/**
 	 * [uploadTopicFile description]
@@ -304,7 +307,7 @@ class TopicController extends Controller {
     {
       $returnInf = [];
 
-      $contentLength = 16;
+      $contentLength = 10;
 
       $input = Request::all();
 
@@ -425,7 +428,7 @@ class TopicController extends Controller {
     {
       $topic = Topic::find($tid);
 
-      $topic->delete();
+      Node::find($topic->node_id)->decrement('topic_count');
 
       $user = User::find(Auth::id());
       $user->decrement('topic_count');
@@ -453,6 +456,8 @@ class TopicController extends Controller {
         $tip->delete();
       }
 
+      $topic->delete();
+
       $returnInf = [];
 
       Session::flash('operationResult','am-alert-success');
@@ -469,9 +474,25 @@ class TopicController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function edit($id)
+	public function editTopic(Topic $topic)
 	{
-		//
+       $tips = DB::table("tips")->get();
+
+       $recommend = DB::table('topics')->where('is_right_recommend','=','1')
+                                       ->orderBy('id','desc')
+                                       ->select('id','title')
+                                       ->take(5)
+                                       ->get();
+
+    $siteInf = DB::table('site_state')->first();
+
+    $nodes = Node::where('parent_node','!=','null')->get();
+    // dd($topic);
+		return view('layouts.home.edit_topic')->with('nodes',$nodes)
+                                          ->with('topic',$topic)
+                                          ->with("tips",$tips)
+                                          ->with('recommend',$recommend)
+                                          ->with('siteInf',$siteInf);
 	}
 
 	/**
@@ -480,9 +501,55 @@ class TopicController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update()
 	{
-		//
+
+    $input = Request::all();
+
+    $returnInf = [];
+
+    $rules = ['content' => ['min:20']];
+    $validator = Validator::make($input, $rules);
+
+    if ($validator->fails()) {
+
+          $messages = $validator->messages();
+          foreach (array_dot($messages->toArray()) as  $value)
+          {
+              $returnInf[] = $value;
+          }
+
+          Session::flash('operationResult','am-alert-warning');
+          Session::flash('returnInf',$returnInf);
+
+          return redirect()->back()->withInput(Request::flash());
+
+    }
+    else {
+
+        $topic= Topic::find($input['topic_id']);
+        $old_nid = $topic->node_id;
+        $new_nid = $input['node_id'];
+
+        if ($old_nid != $new_nid) {
+
+          Node::find($old_nid)->decrement('topic_count');
+          Node::find($new_nid)->increment('topic_count');
+
+          $topic->node_id = $new_nid;
+        }
+
+        $topic->content = Common::encodeTopicContent($input['content']);
+        $topic->created_at = date('Y-m-d H:i:s');
+        $topic->save();
+
+        Session::flash('operationResult','am-alert-success');
+        $returnInf[] = trans('bbs.Edit Successfully!');
+        Session::flash('returnInf', $returnInf);
+
+    }
+
+   return redirect()->route('read.topic',$input['topic_id']);
 	}
 
 	/**

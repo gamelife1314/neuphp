@@ -220,6 +220,15 @@ class HomeController extends Controller {
    */
 	public function login()
   {
+    if (Auth::check()) {
+
+      $returnInf = [];
+      Session::flash('operationResult','am-alert-warning');
+      $returnInf[] = trans('bbs.Login Already!');
+      Session::flash('returnInf',$returnInf);
+
+      return redirect()->back();
+    }
     Session::put('urlBeforeLogin', Request::header('referer'));
     return view('layouts.home.login');
   }

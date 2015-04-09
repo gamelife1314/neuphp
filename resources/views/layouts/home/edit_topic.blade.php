@@ -19,9 +19,9 @@
 					  </div>
                  </div>
                  <div class="div-color-white am-margin-top-sm border-radius am-text-left am-padding-bottom">
-                 	<form class="am-form" method="post" action="{{ action('Home\TopicController@create') }}">
+                 	<form class="am-form" method="post" action="{{ action('Home\TopicController@update') }}">
                  	    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                        <input type="hidden"   name="user_id" value="{{ Auth::id() }}">
+                        <input type="hidden"  name="topic_id" value="{{ $topic->id }}">
                  	    <div class="am-form-group am-padding-left-xs am-padding-right-xs">
                                <span class="am-kai  am-text-secondary " >结点选择：</span>
                                <select name="node_id" class="am-input-sm border-radius" >
@@ -33,11 +33,11 @@
                         </div>
                          <div class="am-form-group am-padding-left-xs am-padding-right-xs">
 						       <span class="am-kai  am-text-secondary " >标题：</span>
-						       <input type="text" class="border-radius am-input-sm" name="title" required value="{{ old('title') }}">
+						       <input type="text" class="border-radius am-input-sm" name="title" readonly="" value="{{ $topic->title }}">
 					    </div>
 				         <div class="am-form-group am-padding-left-xs am-padding-right-xs am-padding-top-sm">
                            <span class="am-kai  am-text-secondary " >请分享您的知识吧：</span>
-                           <textarea class="border-radius am-kai am-margin-top-sm" rows="15" name="content">{{ old('content') }}</textarea>
+                           <textarea class="border-radius am-kai am-margin-top-sm" rows="15" name="content">{{ old('content') ?: $topic->content }}</textarea>
                       </div>
                       <button class="am-btn am-btn-secondary border-radius am-margin-left am-kai">发布</button>
                        <a class="am-btn am-text-muted border-radius am-margin-left am-kai am-text-sm" data-am-modal="{target: '#doc-modal-1',width: '820',height:'560'}">添加图片</a>

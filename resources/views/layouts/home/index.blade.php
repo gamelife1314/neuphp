@@ -23,16 +23,16 @@
 			           @foreach ($excellenTopics as $index => $singleTopic)
 			           <div class="am-u-md-12 am-margin-bottom-xs am-u-sm-12 am-u-lg-6">
 			                <div class="am-u-md-2 am-u-sm-2">
-					  			<a href="/read/users/{{ $singleTopic->user_id }}"><img src="{{ asset($singleTopic->user_image_url) }}" alt="" class="avatars am-radius am-img-thumbnail"></a>
+					  			<a href="{{ route('read.user',$singleTopic->user_id) }}"><img src="{{ asset($singleTopic->user_image_url) }}" alt="" class="avatars am-radius am-img-thumbnail"></a>
 					  		</div>
 					  		<div class="am-u-md-9 am-u-sm-9 am-text-left">
 					  			<div class="am-u-md-12 am-text-truncate">
-					  				<a href="/read/topics/{{ $singleTopic->id }}" class="am-text-default am-text-sm">{{ $singleTopic->title}}</a>
+					  				<a href="{{ route('read.topic',$singleTopic->id) }}" class="am-text-default am-text-sm">{{ $singleTopic->title}}</a>
 					  			</div>
 					  			<div class="am-u-md-12 am-text-muted am-text-xs am-text-truncate">
-						  			<a href="/vote/topics/{{ $singleTopic->id }}" class="am-text-muted"><span class="am-icon-thumbs-o-up">&nbsp;{{ $singleTopic->vote_count }}</span></a>&nbsp;•
-						  			<a href="/read/nodes/{{ $singleTopic->node_id }}" class="am-text-muted">{{ $singleTopic->node_name }}</a>&nbsp;•&nbsp;最后由&nbsp;
-						  			<a href="/read/users/{{  $singleTopic->last_reply_user_id}}" class="am-text-muted">{{ $singleTopic->last_user_name }}</a>&nbsp;•&nbsp;<span title="{{ $singleTopic->created_at }}">{{ $singleTopic->postTime }}</span>前
+						  			<a href="{{ route('vote.topic',$singleTopic->id) }}" class="am-text-muted"><span class="am-icon-thumbs-o-up">&nbsp;{{ $singleTopic->vote_count }}</span></a>&nbsp;•
+						  			<a href="{{ route('read.node',$singleTopic->node_id) }}" class="am-text-muted">{{ $singleTopic->node_name }}</a>&nbsp;•&nbsp;最后由&nbsp;
+						  			<a href="{{ route('read.user',$singleTopic->last_reply_user_id) }}" class="am-text-muted">{{ $singleTopic->last_user_name }}</a>&nbsp;•&nbsp;<span title="{{ $singleTopic->created_at }}">{{ $singleTopic->postTime }}</span>前
 					  			</div>
 					  		</div>
 					  		<div class="am-u-md-1 am-u-sm-1 am-padding-top-sm am-padding-right-xs">

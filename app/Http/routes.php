@@ -89,6 +89,14 @@ Route::group(['namespace' => 'Home'],function(){
           'as' => 'delete.topic',
           'uses' => 'TopicController@deleteTopic']);
 
+  Route::get('/edit/topic/{topic}',[
+          'as' => 'edit.topic',
+          'uses' => 'TopicController@editTopic']);
+
+  Route::post('/edit/topic',[
+          'as' => 'edit.store',
+          'uses' => 'TopicController@update']);
+
   Route::post('/reply/topic',[
           'as'   => 'reply.topic',
           'uses' => 'TopicController@replyTopic']);
@@ -158,6 +166,12 @@ Route::group(['namespace' => 'Home'],function(){
  Route::post('/update/password',[
          'as' => 'update.password',
          'uses' => 'UserController@updatePassword']);
+
+ Route::post('/validate/user/exist',[
+        'as' => 'user.exist',
+        'uses' => 'UserController@exist']);
+
+
 });
 
 

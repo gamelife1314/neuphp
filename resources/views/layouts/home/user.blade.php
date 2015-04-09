@@ -34,7 +34,8 @@
 								      		<div class="am-u-sm-8">
 								      			<a href="{{ route('read.topic',$element->id) }}" class="inline-block am-kai">{{ $element->title }}</a>
                                                  @if (Auth::check() && Auth::id() == $userInf[0]->id)
-								      				&nbsp;&nbsp;•&nbsp;&nbsp;<a href="{{ route('delete.topic',$element->id) }}" class="am-text-muted" onclick="return confirm('您确定要删除？');"><span class="am-icon-trash inline-block" title="删除"></span></a>
+								      				&nbsp;&nbsp;<a href="{{ route('delete.topic',$element->id) }}" class="am-text-muted" onclick="return confirm('您确定要删除？');">•&nbsp;&nbsp;<span class="am-icon-trash inline-block" title="删除"></span></a>
+								      				&nbsp;&nbsp;<a href="{{ route('edit.topic',$element->id) }}" class="am-text-muted" >•&nbsp;&nbsp;<span class="am-icon-edit inline-block" title="编辑"></span></a>
 								      			 @endif
 								      		</div>
 								      		<div class="am-u-sm-3">

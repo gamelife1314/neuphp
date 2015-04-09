@@ -13,7 +13,12 @@
                                  	<div class="am-u-sm-11 am-u-md-11 am-u-lg-11 am-padding-right-sm">
                                  		<div class="am-g">
                                  			<div class="am-u-sm-12 am-u-md-12 am-u-lg-12 am-text-left am-text-truncate">
-                                 				<h2 class="margin-bottom-0 am-kai">{{ $returnTopics[0]->title }}</h2>
+                                 				<h2 class="margin-bottom-0 am-kai">
+                                             @if (Auth::id() == $returnTopics[0]->user_id)
+                                             <a href="{{ route('edit.topic',$returnTopics[0]->id) }}" class="am-text-muted" ><span class="am-icon-edit inline-block" title="编辑"></span>&nbsp;&nbsp;</a>•
+                                             @endif
+                                             {{ $returnTopics[0]->title }}
+                                        </h2>
                                  			</div>
                                  			{{-- <hr data-am-widget="divider" style="" class="am-divider am-divider-default"/> --}}
                                  			<div class="am-u-sm-12 am-u-md-12 am-u-lg-12 am-text-left am-kai">
@@ -105,6 +110,7 @@
                                          <textarea class="am-text-left am-kai border-radius" rows="5" name="replyContent" required>{{ old('replyContent') or "" }}</textarea>
                                       </div>
                                       <button type="submit" class="am-btn am-btn-success am-round am-kai">回复</button>
+                                       <a class="am-btn am-text-muted border-radius am-margin-left am-kai am-text-sm" data-am-modal="{target: '#emjoy',width: '820',height:'560'}">添加表情</a>
                                  </form>
                               </div>
                     </div>
@@ -115,10 +121,21 @@
              </div>
        </div>
 
+        <div class="am-modal am-modal-no-btn" tabindex="-1" id="emjoy">
+          <div class="am-modal-dialog border-radius">
+            <div class="am-modal-bd am-text-left">
+              @for ($i = 1; $i <= $emjoy_count; $i++)
+                <img src="{{ '/image/emjoy/emjoy ('.$i.').png' }}" alt="{{ $i }}" class="emjoy am-img-thumbnail am-margin-left-sm am-margin-top am-circle" style="cursor: pointer">
+              @endfor
+            </div>
+          </div>
+        </div>
+
  	  @include('layouts.partial.author')
       <script type="text/javascript">
 
          jQuery(".topic-body").find("a").attr('target','_blank');
+         jQuery(".topic-body").find("img[alt='emjoy']").addClass('emjoy-sm');
 
           jQuery('a.reply').bind('click',function(event){
              // event.preventDefault();
@@ -139,6 +156,12 @@
 
              return false;
 
+          });
+
+          jQuery('img.emjoy').bind('click',function(event){
+             var textarea =  jQuery("textarea[name='replyContent']");
+             var old = textarea.text();
+             textarea.text(old + "![emjoy](" + event.target.src + ")");
           });
       </script>
  </body>

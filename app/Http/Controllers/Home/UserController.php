@@ -18,11 +18,12 @@ use \Session;
 use \Validator;
 use App\Tip;
 use App\Favorite;
+use Faker\Factory as Faker;
 class UserController extends Controller {
 
    public function __construct()
    {
-    $this->middleware('auth',['only' => ['edit','updateAvatar','uploadAvatar','updateProfile','updatePassword']]);
+    $this->middleware('auth',['only' => ['edit','updateAvatar','uploadAvatar','updateProfile','updatePassword','resetPassword']]);
    }
 
 	/**
@@ -133,9 +134,9 @@ class UserController extends Controller {
 
        BBS::find(1)->increment('register_count');
 
-       Mail::send('layouts.home.email', ['user' => $input['user_name'],'url' => $url], function($message)
+       Mail::queue('layouts.home.active_view', ['user' => $input['user_name'],'url' => $url], function($message)
                 {
-                 $message->to($_POST['email'])->subject('您已注册成功,请您激活');
+                 $message->to($_POST['email'])->subject('NEU PHP 账户激活');
                 });
 
        DB::table('site_state')->where('id')->increment('register_count');
@@ -397,13 +398,15 @@ class UserController extends Controller {
 
         } else {
 
+          Auth::logout();
+
          $user->password = Hash::make(BBS_Request::input('new_password'));
          $user->save();
 
-         Session::flash('operationResult','am-alert-success');
+          Session::flash('operationResult','am-alert-success');
           array_push($returnInf,trans('bbs.Updated Successfully!'));
           array_push($returnInf,trans('bbs.Login Again!'));
-         Session::flash('returnInf',$returnInf);
+          Session::flash('returnInf',$returnInf);
 
          return redirect()->route('login');
 
@@ -419,7 +422,77 @@ class UserController extends Controller {
 
       return redirect()->back();
   }
+  /**
+   * [exist description]
+   * @return [type] [description]
+   */
+  public function exist()
+  {
+    $input = BBS_Request::all();
 
+    $rules = ['email' =>['email','required']];
+
+    $validator = Validator::make($input, $rules);
+
+    $returnInf = [];
+
+    if ($validator->fails()) {
+
+      $messages = $validator->messages();
+      foreach (array_dot($messages->toArray()) as  $value) {
+        $returnInf[] = $value;
+      }
+
+      Session::flash('operationResult','am-alert-warning');
+      Session::flash('returnInf',$returnInf);
+
+      return redirect()->back();
+    }
+    else {
+
+      if ($input['user_name'] == "") {
+
+         $user = User::where('email','=',$input['email'])->get();
+      }
+      else {
+
+        $user = User::where('email','=',$input['email'])->where('name','=',$input['user_name'])->get();
+      }
+
+      if (count($user) > 0) {
+
+        $faker = Faker::create();
+        $randomPwd = $faker->password();
+
+        $user[0]->password = Hash::make($randomPwd);
+        $user[0]->save();
+
+        Session::flash('email', $user[0]->email);
+
+        Mail::queue('layouts.home.random_password', ['user' => $user[0]->name,'password' => $randomPwd], function($message)
+          {
+                 $message->to(session('email'))->subject('NEU PHP 重置密码');
+          });
+
+
+        Session::flash('operationResult','am-alert-success');
+        $returnInf[] = trans('bbs.Please Login with New Password in Your Email!');
+        Session::flash('returnInf',$returnInf);
+
+        return redirect()->route('login');
+
+      }
+      else {
+
+        $returnInf[] = trans('bbs.We can\'t find user according to your information!');
+
+        Session::flash('operationResult','am-alert-warning');
+        Session::flash('returnInf',$returnInf);
+
+        return redirect()->back();
+      }
+    }
+  }
 	/**
 	 * Remove the specified resource from storage.
 	 *

@@ -69,6 +69,14 @@ img.gray{
     filter:gray;
     filter: grayscale(1);
 }
+img.emjoy{
+	width:48px;
+	height: 48px;
+}
+img.emjoy-sm{
+	width: 32px;
+	height: 32px;
+}
 .am-text-muted{
 	color: #C0C0C0;
 }

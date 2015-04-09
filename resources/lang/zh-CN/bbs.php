@@ -54,5 +54,13 @@
 
   'Post Successfully!' => "发帖成功"."<a href='/read/topics/:tid'><span class='am-text-warning'>去查看</span></a>",
 
-  'Delete Topic Successfully!' => "删除帖子成功！"
+  'Delete Topic Successfully!' => "删除帖子成功！",
+
+  'Edit Successfully!' => "编辑成功！",
+
+  'Login Already!' => "您已经登录！",
+
+  'We can\'t find user according to your information!' => "我们根据您提供的信息没有找到相关用户！",
+
+  'Please Login with New Password in Your Email!' => "请使用我们发送至您邮箱的新密码登录，然后您可以重置密码！"
   ];

@@ -18,6 +18,7 @@ class CreateWebsiteTable extends Migration {
             $table->integer('register_count')->default(0);
             $table->integer('topic_count')->default(0);
             $table->integer('reply_count')->default(0);
+            $table->integer('emjoy_count')->default(0);
             $table->integer('avatars_count')->default(0);
             $table->timestamps();
 		});
@@ -33,7 +34,8 @@ class CreateWebsiteTable extends Migration {
     		                              'register_count' => '120',
     		                              'topic_count' =>'679',
     		                              'avatars_count' => '44',
-    		                              'reply_count' => '564']);
+    		                              'reply_count' => '564',
+    		                              'emjoy_count' => 18]);
     }
 
 	/**

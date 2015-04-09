@@ -22,6 +22,7 @@
 			  <ul class="am-tabs-nav am-nav am-nav-tabs am-kai">
 				    <li class="am-active"><a href="#tab1">登录</a></li>
 				    <li><a href="#tab2">注册</a></li>
+				    <li><a href="#tab3">忘记密码</a></li>
 			  </ul>
 
 			  <div class="am-tabs-bd" style="min-height: 256px">
@@ -97,6 +98,33 @@
 							  </div>
 						</form>
 
+				    </div>
+				    <div class="am-tab-panel am-fade am-text-left" id="tab3">
+				    	<form class="am-form am-form-horizontal" method="post" action="{{ action('Home\UserController@exist') }}">
+				    	   <input type="hidden" name="_token" value="{{ csrf_token() }}">
+				    	   <div class="am-form-group">
+							    <label for="email" class="am-u-sm-2 am-form-label">邮件：</label>
+							    <div class="am-u-sm-10">
+							      <input type="email" name="email" class="border-radius" required>
+							    </div>
+							  </div>
+
+							  <div class="am-form-group">
+							    <label for="user_name" class="am-u-sm-2 am-form-label">用户名：</label>
+							    <div class="am-u-sm-10">
+							      <input type="text" name="user_name"  class="border-radius" placeholder="可选">
+							    </div>
+							  </div>
+
+							  <div class="am-form-group">
+							    <div class="am-u-sm-10 am-u-sm-offset-2">
+							      <button type="submit" class="am-btn am-btn-success border-radius">提交</button>
+							    </div>
+							  </div>
+				    	</form>
+				    	<div class="am-u-sm-12 am-text-left am-margin-top">
+				    		<p class="am-kai am-text-muted">请您填写必要的信息，我们将在验证正确之后向您发送一份用于重设密码的邮件</p>
+				    	</div>
 				    </div>
 	           </div>
             </div>
