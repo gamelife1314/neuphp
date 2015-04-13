@@ -8,7 +8,7 @@
    <div class="am-g div-custom div-color-white">
         <div class="am-panel am-panel-default border-radius" style="margin-bottom:0px">
              <div class="am-panel-hd">
-			         <p class="am-panel-title am-kai">关于我们</p>
+			         <p class="am-panel-title am-kai">{{ trans('bbs.About Us!') }}</p>
 		     </div>
 		     <div class="am-panel-bd am-text-left">
 		         	{!! $abouts !!}

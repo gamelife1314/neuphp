@@ -23,13 +23,15 @@ class RouteServiceProvider extends ServiceProvider {
 	public function boot(Router $router)
 	{
 		parent::boot($router);
-		$router->pattern('nid','[0-9]+');
-		$router->pattern('pid','[0-9]+');
-		$router->pattern('tid','[0-9]+');
-		$router->pattern('uid','[0-9]+');
-		$router->pattern('rid','[0-9]+');
-		$router->model('user','App\User');
-		$router->model('topic','App\Topic');
+		$router->pattern('nid','[0-9]+'); //node id
+		$router->pattern('pid','[0-9]+');  // page id
+		$router->pattern('tid','[0-9]+');// topic id
+		$router->pattern('uid','[0-9]+'); // user id
+		$router->pattern('rid','[0-9]+');// reply id
+		$router->pattern('bid','[0-9]+');// bbs tip id
+		$router->pattern('did','[0-9]+');// document id
+		$router->model('user','App\User'); // user 模型
+		$router->model('topic','App\Topic');// topic 模型
 
 		//
 	}

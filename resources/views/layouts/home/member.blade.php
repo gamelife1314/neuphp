@@ -10,7 +10,7 @@
 
       <div class="am-panel am-panel-default border-radius" style="margin-bottom:0px">
            <div class="am-panel-hd">
-			      <p class="am-panel-title am-kai">社区会员({{ count($bbsMember) }} 人)</p>
+			      <p class="am-panel-title am-kai">{{ trans('bbs.community member') }}({{ count($bbsMember) }} )</p>
 		   </div>
 		   <div class="am-panel-bd">
           <div class="am-g">

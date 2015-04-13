@@ -153,6 +153,10 @@ div.avatar-choose img{
 	border-style: groove;
 	padding: 5px;
 }
+.user-topic-div{
+	width:100px;
+	height: 45px;
+}
 .img-preview-lg{
 	height: 140px;
 	width: 140px;

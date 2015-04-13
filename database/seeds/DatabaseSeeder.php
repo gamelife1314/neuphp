@@ -45,7 +45,7 @@ class DatabaseSeeder extends Seeder {
                 'title'             => "test topic-->".$faker->sentence($nbWords = 5),
                 'content'           => $faker->text($maxNbChars = 2000),
                 'user_id'           => rand(1,100),
-                'node_id'           => rand(7,42),
+                'node_id'           => rand(7,43),
                 'is_excellent'      => rand(0,1),
                 'last_reply_user_id' => rand(1,50),
                 'reply_count'        => rand(2,9),

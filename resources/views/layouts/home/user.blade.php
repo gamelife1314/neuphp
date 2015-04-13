@@ -15,10 +15,10 @@
 	          <div class="am-g  div-color-white border-radius am-margin-top" id="user">
 	                <div class="am-tabs" data-am-tabs>
 						    <ul class="am-tabs-nav am-nav am-nav-tabs am-kai">
-						        <li class="am-active"><a href="#tab1">个人信息</a></li>
-						        <li><a href="#tab2">发帖</a></li>
-						        <li><a href="#tab3">回复({{ $pagination->total() }})</a></li>
-						        <li><a href="#tab4">收藏</a></li>
+						        <li class="am-active"><a href="#tab1">{{ trans('bbs.profile') }}</a></li>
+						        <li><a href="#tab2">{{ trans('bbs.release') }}</a></li>
+						        <li><a href="#tab3">{{ trans('bbs.reply') }}({{ $pagination->total() }})</a></li>
+						        <li><a href="#tab4">{{ trans('bbs.collect') }}</a></li>
 						    </ul>
 
 		                   <div class="am-tabs-bd am-text-left">
@@ -53,7 +53,7 @@
 										    				<a href="{{ route('read.user',$element['topic_user']->id) }}" class="inline-block am-text-success">{{ $element['topic_user']->name }}</a>：
 										    				<a href="{{ route('read.topic',$element['reply_topic']->id) }}" class="inline-block">{{ $element['reply_topic']->title }}</a>
 								    				</li>
-								    				<li class="border-none am-margin-left">
+								    				<li class="border-none am-margin-left reply_body">
 										    				<a href="{{ route('read.user',$userInf[0]->id) }}" class="inline-block">{{ $userInf[0]->name }}</a>：
 										    				<a href="{{ route('read.user',$element['topic_user']->id) }}" class="inline-block am-margin-right-sm am-text-success">@ {{ $element['topic_user']->name }}</a>
 										    				<span class="am-fr am-text-muted">{{ $element['reply']->created_at }}</span>
@@ -85,24 +85,24 @@
               <div class="am-g  div-color-white border-radius am-margin-top">
 	                <div class="am-tabs" data-am-tabs>
 						    <ul class="am-tabs-nav am-nav am-nav-tabs am-kai">
-						        <li class="am-active"><a href="#tab5">精华主题</a></li>
-						        <li><a href="#tab6">楼主最爱</a></li>
+						        <li class="am-active"><a href="#tab5">{{ trans('bbs.Excellent topic') }}</a></li>
+						        <li><a href="#tab6">{{ trans('bbs.favorite topic') }}</a></li>
 						    </ul>
 
 		                   <div class="am-tabs-bd am-text-left">
 							    <div class="am-tab-panel am-fade am-in am-active" id="tab5">
 							    	<ul class="am-list">
 									    	 @foreach ($posts as $element)
-									    	 	@if ($element->is_excellent or $element->recommend or $element->stick or $element->is_right_recommend )
+									    	 	@if ($element->is_excellent or $element->recommend or $element->stick)
 									    	 		<li class="border-none">
 									    	 		    <a href="{{ route('read.topic',$element->id) }}" class="">
 										    	 		     @if ($element->is_excellent)
 										    	 		     	<span class="am-badge am-badge-success am-radius am-text-xs">精华</span>
 										    	 		     @endif
-										    	 		     @if ($element->recommend or $element->is_right_recommend)
+										    	 		     @if ($element->recommend)
 										    	 		     	<span class="am-badge am-badge-secondary am-radius am-text-xs">推荐</span>
 										    	 		     @endif
-										    	 		     @if ($element->recommend or $element->is_right_recommend)
+										    	 		     @if ($element->stick)
 										    	 		     	<span class="am-badge am-badge-warning am-radius am-text-xs">置顶</span>
 										    	 		     @endif
 									    	 		         &nbsp;&nbsp;{{ $element->title }}
@@ -137,15 +137,15 @@
 	  	 	<div class="am-u-sm-12 div-color-white border-radius am-margin-top am-text-left" style="padding:0px;">
 	  	 	    <table class="am-table  am-table-radius  am-text-sm " style="margin-bottom: 0px">
                          <tr>
-                         	<td class="am-text-right">用户ID:</td>
+                         	<td class="am-text-right">{{ trans('bbs.user id') }}:</td>
                          	<td>{{ $userInf[0]->id }}</td>
                          </tr>
                          <tr>
-                         	<td class="am-text-right">Name:</td>
+                         	<td class="am-text-right">{{ trans('bbs.nick name') }}:</td>
                          	<td>{{ $userInf[0]->name }}</td>
                          </tr>
                          <tr>
-                         	<td class="am-text-right">姓名:</td>
+                         	<td class="am-text-right">{{ trans('bbs.name') }}:</td>
                          	<td>{{ $userInf[0]->real_name }}</td>
                          </tr>
                          <tr>
@@ -157,35 +157,35 @@
                          	<td>{{ $userInf[0]->email }}</td>
                          </tr>
                          <tr>
-                         	<td class="am-text-right">发帖数:</td>
+                         	<td class="am-text-right">{{ trans('bbs.Posts') }}:</td>
                          	<td>{{ $userInf[0]->topic_count }}</td>
                          </tr>
                          <tr>
-                         	<td class="am-text-right">回帖数:</td>
+                         	<td class="am-text-right">{{ trans('bbs.Replies') }}:</td>
                          	<td>{{ $userInf[0]->reply_count }}</td>
                          </tr>
                          <tr>
-                         	<td class="am-text-right">城市:</td>
+                         	<td class="am-text-right">{{ trans('bbs.city') }}:</td>
                          	<td>{{ $userInf[0]->city }}</td>
                          </tr>
                          <tr>
-                         	<td class="am-text-right">大学:</td>
+                         	<td class="am-text-right">{{ trans('bbs.university') }}:</td>
                          	<td>{{ $userInf[0]->university }}</td>
                          </tr>
                          <tr>
-                         	<td class="am-text-right">专业:</td>
+                         	<td class="am-text-right">{{ trans('bbs.major') }}:</td>
                          	<td>{{  $userInf[0]->major  }}</td>
                          </tr>
                          <tr>
-                         	<td class="am-text-right">博客:</td>
+                         	<td class="am-text-right">Blog:</td>
                          	<td><a href="{{ $userInf[0]->personal_website }}" title="{{ $userInf[0]->personal_website }}">{{ $userInf[0]->real_name }}</a></td>
                          </tr>
                          <tr>
-                         	<td class="am-text-right">注册:</td>
+                         	<td class="am-text-right">{{ trans('bbs.regist') }}:</td>
                          	<td>{{  $userInf[0]->created_at  }}</td>
                          </tr>
                          <tr>
-                         	<td class="am-text-right">描述:</td>
+                         	<td class="am-text-right">{{ trans('description') }}:</td>
                          	<td>{{ $userInf[0]->introduction }}</td>
                          </tr>
                 </table>
@@ -197,9 +197,7 @@
   @include('layouts.partial.author')
   <script type="text/javascript">
      jQuery(document).ready(function(){
-     	jQuery(".laravel-pagination").find('a').click(function(){
-     		jQuery("#tab3").trigger('click');
-     	});
+     	jQuery(".reply_body").find("img[alt='emjoy']").addClass('emjoy-sm');
      });
   </script>
  </body>

@@ -6,7 +6,7 @@
 
 	<div class="am-g div-custom div-color-white">
   	<div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
-  		<p class="am-monospace default"><strong>NEU PHP</strong> 专注为NEUer提供一个专业便捷的&nbsp;<strong>php&laravel</strong>&nbsp;交流平台</p>
+  		<p class="am-monospace default"><strong>NEU PHP {{ trans('bbs.announce') }}</strong> </p>
   	</div>
   </div>
 @stop
@@ -16,7 +16,7 @@
   <div class="am-g div-custom div-color-white">
 	    <div class="am-panel am-panel-default border-radius">
 			  <div class="am-panel-hd">
-			       <p class="am-panel-title am-kai">社区精华帖&nbsp;<span class="am-icon-home"></span></p>
+			       <p class="am-panel-title am-kai">{{ trans('bbs.community excellent topic') }}&nbsp;<span class="am-icon-home"></span></p>
 			  </div>
 			  <div class="am-panel-bd">
 				  <div class="am-g home-excellent">
@@ -31,8 +31,14 @@
 					  			</div>
 					  			<div class="am-u-md-12 am-text-muted am-text-xs am-text-truncate">
 						  			<a href="{{ route('vote.topic',$singleTopic->id) }}" class="am-text-muted"><span class="am-icon-thumbs-o-up">&nbsp;{{ $singleTopic->vote_count }}</span></a>&nbsp;•
-						  			<a href="{{ route('read.node',$singleTopic->node_id) }}" class="am-text-muted">{{ $singleTopic->node_name }}</a>&nbsp;•&nbsp;最后由&nbsp;
-						  			<a href="{{ route('read.user',$singleTopic->last_reply_user_id) }}" class="am-text-muted">{{ $singleTopic->last_user_name }}</a>&nbsp;•&nbsp;<span title="{{ $singleTopic->created_at }}">{{ $singleTopic->postTime }}</span>前
+						  			<a href="{{ route('read.node',$singleTopic->node_id) }}" class="am-text-muted">
+                                      @if (Auth::check() && Auth::user()->language == 'en')
+		                                 	{{ $singleTopic->node_slug }}
+		                                 @else
+		                                     {{ $singleTopic->node_name }}
+		                                 @endif
+						  			</a>&nbsp;•&nbsp;{{ trans('bbs.finnaly by') }}&nbsp;
+						  			<a href="{{ route('read.user',$singleTopic->last_reply_user_id) }}" class="am-text-muted">{{ $singleTopic->last_user_name }}</a>&nbsp;•&nbsp;<span title="{{ $singleTopic->created_at }}">{{ $singleTopic->postTime }}</span> {{ trans('bbs.ago') }}
 					  			</div>
 					  		</div>
 					  		<div class="am-u-md-1 am-u-sm-1 am-padding-top-sm am-padding-right-xs">
@@ -51,7 +57,7 @@
 			           @endforeach
 				  </div> {{-- am-g --}}
 	         </div> {{-- panel-body --}}
-		  <a href="/community" class="am-fr am-margin-top-xs am-margin-bottom-xs am-margin-right am-text-sm">更多精华内容...</a>
+		  <a href="/community" class="am-fr am-margin-top-xs am-margin-bottom-xs am-margin-right am-text-sm">{{ trans('bbs.more exciting content') }}...</a>
 	    </div>
   </div>
 

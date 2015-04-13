@@ -7,18 +7,19 @@
 
   <div class="am-collapse am-topbar-collapse" id="doc-topbar-collapse">
     <ul class="am-nav am-nav-pills am-topbar-nav">
-      <li><a href="/community">社区</a></li>
-      <li><a href="/wiki">Wiki</a></li>
-      <li><a href="/member">会员</a></li>
-      <li><a href="/about">关于</a></li>
-      <li><a href="/documents">文档</a></li>
-      <li><a href="https://github.com/gamelife1314/neuphp" target="_blank">源码</a></li>
-      <li><a href="/markdowm">Markdown</a></li>
+      <li><a href="{{ route('home.community') }}">{{ trans('bbs.Community') }}</a></li>
+      <li><a href="{{ route('home.wiki') }}">Wiki</a></li>
+      <li><a href="{{ route('home.member') }}">{{ trans('bbs.member') }}</a></li>
+      <li><a href="{{ route('home.about') }}">{{ trans('bbs.about') }}</a></li>
+      <li><a href="{{ route('home.documents') }}">{{ trans('bbs.document') }}</a></li>
+      <li><a href="https://github.com/gamelife1314/neuphp" target="_blank">{{ trans('bbs.Source Code') }}</a></li>
+      <li><a href="{{ route('home.markdown') }}">Markdown</a></li>
     </ul>
 
-    <form class="am-topbar-form am-topbar-left am-form-inline" role="search">
+    <form class="am-topbar-form am-topbar-left am-form-inline" role="search" method="post" action="{{ action('Home\HomeController@search') }}">
+      <input type="hidden" name="_token" value="{{ csrf_token() }}">
       <div class="am-form-group">
-        <input type="text" class="am-form-field am-input-sm" placeholder="search">
+        <input type="text" class="am-form-field am-input-sm" placeholder="search" required name="keyword">
       </div>
     </form>
 

@@ -3,6 +3,7 @@
  *  Common类用于提供常用的自定义方法
  */
 namespace App\BBS\Common;
+use \Lang;
 
 class Common {
 
@@ -28,22 +29,22 @@ class Common {
 	{
 		$result = '';
 		if ($time > self::$yearTimestamp) {
-			$result = floor($time / self::$yearTimestamp)." 年";
+			$result = floor($time / self::$yearTimestamp)." ".Lang::choice('bbs.years',floor($time / self::$yearTimestamp));
 		}
 		else if ($time > self::$monthTimestamp) {
-			$result = floor($time / self::$monthTimestamp)." 个月";
+			$result = floor($time / self::$monthTimestamp)." ".Lang::choice('bbs.months',floor($time / self::$monthTimestamp));
 		}
 		else if ($time > self::$dayTimestamp) {
-            $result = floor($time / self::$dayTimestamp)." 天";
+            $result = floor($time / self::$dayTimestamp)." ".Lang::choice('bbs.days',floor($time / self::$dayTimestamp));
 		}
 		else if ($time > self::$hourTimestamp) {
-            $result = floor($time / self::$hourTimestamp)." 小时";
+            $result = floor($time / self::$hourTimestamp)." ".Lang::choice('bbs.hours',floor($time / self::$hourTimestamp));
 		}
 		else if ($time > self::$minutesTimestamp) {
-             $result = floor($time / self::$minutesTimestamp)." 分钟";
+             $result = floor($time / self::$minutesTimestamp)." ".Lang::choice('bbs.minutes',floor($time / self::$minutesTimestamp));
 		}
 		else {
-			return $time."秒";
+			return $time." ".Lang::choice('bbs.senconds',$time);
 		}
 		return $result;
     }
@@ -59,8 +60,8 @@ class Common {
       $info = str_replace("\t","",$info);
       // $info = str_replace("<","&lt;",$info);
       // $info = str_replace(">","&gt;",$info);
-      $info = str_replace("\r","<br />",$info);
-      $info = str_replace("\n\n","</p><p>",$info);
+      // $info = str_replace("\r","<br />",$info);
+      // $info = str_replace("\n\n","</p><p>",$info);
       $info = str_replace("\n","",$info);
       $info = str_replace("|","│",$info);
       $info = str_replace("  "," &nbsp;",$info);

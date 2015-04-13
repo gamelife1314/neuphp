@@ -21,11 +21,12 @@ class CreateUsersTable extends Migration {
 			$table->string('github')->nullable();
 			$table->string('email')->unique()->index();
 			$table->string('password', 62);
-			$table->boolean('active')->defalse(0);
+			$table->boolean('active')->default(0);
 			$table->integer('tips')->default(0);
 			$table->string('language')->default('zh-CN');
 			$table->rememberToken()->nullable();
-			$table->boolean('is_banned')->default(false);
+			$table->boolean('is_banned')->default(0);
+			$table->boolean('is_admin')->default(0);
 			$table->string('image_url')->nullable();
 			$table->integer('topic_count')->default(0)->index();
 			$table->integer('reply_count')->default(0)->index();

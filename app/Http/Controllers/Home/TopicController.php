@@ -24,7 +24,7 @@ class TopicController extends Controller {
 
 	public function __construct()
 	{
-		 $this->middleware('auth',['only' => ['uploadTopicImage','voteUp','voteDown','collect','vote','favorite','voteReply','replyTopic','deleteReply','deleteTopic','editTopic','update']]);
+		 $this->middleware('auth',['only' => ['uploadTopicImage','voteUp','voteDown','collect','vote','favorite','voteReply','replyTopic','deleteReply','deleteTopic','editTopic','update','uploadForm']]);
 	}
 
 	/**
@@ -57,7 +57,12 @@ class TopicController extends Controller {
       if ($vote->vote_up) {
 
       	$vote->vote_down = 0;
-      	$vote->save();
+      	if (!$vote->save()) {
+
+          Session::flash('operationResult','am-alert-warning');
+          $returnInf[] = trans('bbs.Something Wrong With Our Server!');
+
+        }
 
       	Session::flash('operationResult','am-alert-warning');
       	array_push($returnInf,trans('bbs.Voted Already!'));
@@ -67,7 +72,12 @@ class TopicController extends Controller {
 
         $vote->vote_up = 1;
         $vote->vote_down = 0;
-      	$vote->save();
+      	 if (!$vote->save()) {
+
+          Session::flash('operationResult','am-alert-warning');
+          $returnInf[] = trans('bbs.Something Wrong With Our Server!');
+
+        }
 
         Topic::find($tid)->increment('vote_count');
 
@@ -94,7 +104,12 @@ class TopicController extends Controller {
       if ($vote->vote_down) {
 
       	$vote->vote_up = 0;
-      	$vote->save();
+      	if (!$vote->save()) {
+
+          Session::flash('operationResult','am-alert-warning');
+          $returnInf[] = trans('bbs.Something Wrong With Our Server!');
+
+        }
 
       	Session::flash('operationResult','am-alert-warning');
       	array_push($returnInf,trans('bbs.Voted Already!'));
@@ -104,7 +119,12 @@ class TopicController extends Controller {
 
         $vote->vote_up = 0;
         $vote->vote_down = 1;
-      	$vote->save();
+      	if (!$vote->save()) {
+
+          Session::flash('operationResult','am-alert-warning');
+          $returnInf[] = trans('bbs.Something Wrong With Our Server!');
+
+        }
 
         Topic::find($tid)->decrement('vote_count');
 
@@ -192,18 +212,21 @@ class TopicController extends Controller {
 	 */
 	public function show($id)
 	{
-		 Topic::find($id)->increment('view_count');
-         //获得公告内容
-    	 $tips = DB::table("tips")->get();
-         //获得推荐内容
-    	 $recommend = DB::table('topics')->where('is_right_recommend','=','1')
-    	                                 ->orderBy('id','desc')
-    	                                 ->select('id','title')
-    	                                 ->take(5)
-    	                                 ->get();
-        //获得站点信息
+		  $topic = @Topic::find($id);
+
+      if ($topic != null) {
+       $topic->increment('view_count');
+
+       $tips = DB::table("tips")->get();
+
+       $recommend = DB::table('topics')->where('is_right_recommend','=','1')
+                                       ->orderBy('updated_at','desc')
+                                       ->select('id','title')
+                                       ->take(5)
+                                       ->get();
+
         $siteInf = DB::table('site_state')->first();
-        //返回需要的内容
+
         $returnTopics = DB::table('topics')->where('topics.id', '=', $id)
                                            ->leftJoin('users','topics.user_id','=','users.id')
                                            ->leftJoin('nodes','topics.node_id', '=', 'nodes.id')
@@ -214,7 +237,7 @@ class TopicController extends Controller {
 
         $postTime = Common::calculateTopicTime(time() - strtotime($returnTopics[0]->created_at));
         $lastReplyTime = Common::calculateTopicTime(time() - strtotime($returnTopics[0]->updated_at));
-        //获得本贴的回复信息
+
         $replies = DB::table('replies')->where('replies.topic_id', '=', $id)
                                         ->leftJoin('users','users.id','=','replies.user_id')
                                         ->orderBy('replies.vote_count','desc')
@@ -222,18 +245,28 @@ class TopicController extends Controller {
                                         ->select('replies.*','users.name as user_name','users.image_url as user_image_url')
                                         ->paginate(10);
         foreach ($replies as $key => $value) {
-        	$value->body = Markdown::defaultTransform($value->body);
-        	$value->replyTime = Common::calculateTopicTime(time() - strtotime($value->created_at));
+          $value->body = Markdown::defaultTransform($value->body);
+          $value->replyTime = Common::calculateTopicTime(time() - strtotime($value->created_at));
         }
 
-		return view('layouts.home.read_topic')->with("tips",$tips)
-    	                                      ->with('recommend',$recommend)
-    	                                      ->with('siteInf',$siteInf)
-    	                                      ->with('returnTopics',$returnTopics)
-    	                                      ->with('postTime',$postTime)
-    	                                      ->with('lastReplyTime',$lastReplyTime)
-    	                                      ->with('replies',$replies)
+    return view('layouts.home.read_topic')->with("tips",$tips)
+                                            ->with('recommend',$recommend)
+                                            ->with('siteInf',$siteInf)
+                                            ->with('returnTopics',$returnTopics)
+                                            ->with('postTime',$postTime)
+                                            ->with('lastReplyTime',$lastReplyTime)
+                                            ->with('replies',$replies)
                                             ->with('emjoy_count',BBS::find(1)->emjoy_count);
+      }
+      else {
+        $returnInf = [];
+
+        Session::flash('operationResult','am-alert-warning');
+        $returnInf[] = trans('bbs.This Topic dosen\'t exist!');
+        Session::flash('returnInf',$returnInf);
+
+        return redirect()->route('home.community');
+      }
 	}
 	/**
 	 * [uploadTopicFile description]
@@ -241,7 +274,38 @@ class TopicController extends Controller {
 	 */
     public function uploadTopicImage()
     {
-      return "hellow world";
+      if (Request::hasFile('image') and Request::file('image')->isValid())
+        {
+           $file = Request::file('image');
+
+           $uid = Auth::id();
+
+           if(!is_dir(public_path()."\uploads"))
+
+               mkdir(public_path()."\uploads");
+
+           if(!is_dir(public_path()."/uploads/topics"))
+
+              mkdir(public_path()."/uploads/topics");
+
+          if(!is_dir(public_path()."/uploads/topics/".$uid))
+
+               mkdir(public_path()."/uploads/topics/".$uid);
+
+          $iamge_name = time().".".$file->getClientOriginalExtension();
+
+          if ($file->getClientSize() < 204800 && preg_match('/image\/\w+/i', $file->getClientMimeType()) != 0) {
+
+            $file->move(public_path()."/uploads/topics/".$uid,$iamge_name);
+            return  response()->json(["![image](".asset('uploads/topics/'.$uid.'/'.$iamge_name).")"]);
+
+          }
+          else {
+             return  response()->json(["文件需为小于200KB的图片"]);
+          }
+
+       }
+      return response()->json(['false']);
     }
     /**
      * [collect description]
@@ -387,16 +451,19 @@ class TopicController extends Controller {
      $reply_topic_id = $reply->topic_id;
      $tipUsers = explode(';',$reply->tip_user);
 
-     foreach ($tipUsers as  $value) {
+    if ($tipUsers[0] != "") {
 
-     $tip = Tip::where('active_user_id', '=', Auth::id())->where('positive_user_id','=',$value)->first();
+         foreach ($tipUsers as  $value) {
 
-        if ($tip->view == 0) {
+          $tip = Tip::where('active_user_id', '=', Auth::id())->where('positive_user_id','=',$value)->first();
 
-           User::find($value)->decrement('tips');
-          }
+          if ($tip->view == 0) {
 
-          $tip->delete();
+             User::find($value)->decrement('tips');
+            }
+
+            $tip->delete();
+        }
     }
 
      User::find($reply_user_id)->decrement('reply_count');
@@ -458,6 +525,10 @@ class TopicController extends Controller {
 
       $topic->delete();
 
+      foreach (Vote::where('topic_id','=',$tid)->get() as $vote) {
+        $vote->delete();
+      }
+
       $returnInf = [];
 
       Session::flash('operationResult','am-alert-success');
@@ -479,7 +550,7 @@ class TopicController extends Controller {
        $tips = DB::table("tips")->get();
 
        $recommend = DB::table('topics')->where('is_right_recommend','=','1')
-                                       ->orderBy('id','desc')
+                                       ->orderBy('updated_at','desc')
                                        ->select('id','title')
                                        ->take(5)
                                        ->get();
@@ -487,7 +558,6 @@ class TopicController extends Controller {
     $siteInf = DB::table('site_state')->first();
 
     $nodes = Node::where('parent_node','!=','null')->get();
-    // dd($topic);
 		return view('layouts.home.edit_topic')->with('nodes',$nodes)
                                           ->with('topic',$topic)
                                           ->with("tips",$tips)
@@ -550,17 +620,6 @@ class TopicController extends Controller {
     }
 
    return redirect()->route('read.topic',$input['topic_id']);
-	}
-
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
-		//
 	}
 
 }

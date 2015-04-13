@@ -4,6 +4,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\BBS\Common\Common;
 use Illuminate\Http\Request;
+use \DB;
 
 class NodeController extends Controller {
 
@@ -14,26 +15,26 @@ class NodeController extends Controller {
 	 */
 	public function index($nid = 7, $pid = 1)
 	{
-        //获得公告内容
-    	$tips = \DB::table("tips")->get();
-        //获得推荐内容
-    	$recommend = \DB::table('topics')->where('is_right_recommend','=','1')
+
+    	$tips = DB::table("tips")->get();
+
+    	$recommend = DB::table('topics')->where('is_right_recommend','=','1')
     	                                 ->orderBy('id','desc')
     	                                 ->select('id','title')
     	                                 ->take(5)
     	                                 ->get();
-        //获得站点信息
-        $siteInf = \DB::table('site_state')->first();
-       //获得当前结点
-        $currentNode = \DB::table('nodes')->where('id', '=', $nid)->get();
 
-        //关于分页
+        $siteInf = DB::table('site_state')->first();
+
+        $currentNode = DB::table('nodes')->where('id', '=', $nid)->get();
+
+
         $pageSize = 20;
-        $topicCount = \DB::table('topics')->where('node_id', '=', $nid)->count();
+        $topicCount = DB::table('topics')->where('node_id', '=', $nid)->count();
         $pageNumber = ceil($topicCount / $pageSize);
         $max_pid = $pageNumber > ($pid + 4) ? ($pid + 4) : $pageNumber;
 
-        $returnTopics = \DB::table('topics')->where('node_id','=', $nid)
+        $returnTopics = DB::table('topics')->where('node_id','=', $nid)
                                    ->leftJoin('users', 'topics.user_id', '=', 'users.id')
                                    ->leftJoin('nodes','topics.node_id', '=', 'nodes.id')
                                    ->leftJoin('users as last_reply_user','topics.last_reply_user_id','=','last_reply_user.id')
@@ -56,7 +57,8 @@ class NodeController extends Controller {
     	                                ->with('siteInf',$siteInf)
                                         ->with('siteNode',"nodes")
                                         ->with('currentNode',$currentNode)
-                                        ->with('topicCount',$topicCount);
+                                        ->with('topicCount',$topicCount)
+                                        ->with('nodes',DB::table('nodes')->get());
 
 	}
 

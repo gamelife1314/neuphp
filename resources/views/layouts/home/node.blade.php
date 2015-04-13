@@ -10,7 +10,7 @@
              <div class="am-u-sm-12 am-u-md-9 am-u-lg-9  community-u-body border-radius" >
                   <div class="am-panel am-panel-default">
                        <div class="am-panel-hd am-text-left am-kai am-margin-bottom-xs">
-                            <p class="am-text-default am-margin-bottom-xs ">当前结点：<span class="am-text-warning">{{ $currentNode[0]->name }}</span></p>
+                            <p class="am-text-default am-margin-bottom-xs ">{{ trans('bbs.current node') }}：<span class="am-text-warning">{{ $currentNode[0]->name }}</span></p>
                        </div>
                        <div class="am-panel-bd" style="padding-bottom:0px">
           			        <div class="am-g">
@@ -23,9 +23,9 @@
 		                  		  			      <div class="am-u-md-12">
 		                    		  				    <a href="/read/topics/{{ $singleTopic->id }}" class="am-text-default am-text-sm">
 					                                            @if ($singleTopic->stick == 1)
-					                                             <span class="am-badge am-badge-success am-radius am-text-xs">置顶</span>
+					                                             <span class="am-badge am-badge-success am-radius am-text-xs">{{ trans('bbs.stick') }}</span>
 					                                            @elseif ($singleTopic->recommend == 1)
-					                                              <span class="am-badge am-badge-secondary am-radius am-text-xs">推荐</span>
+					                                              <span class="am-badge am-badge-secondary am-radius am-text-xs">{{ trans('bbs.recommend') }}</span>
 					                                            @endif
 		                    		  				            {{ $singleTopic->title }}
 		                                                </a>
@@ -37,7 +37,7 @@
 			                  		  			 </div>
 			                		  		 </div>
 			                		  		 <div class="am-u-md-1 am-u-sm-1 am-padding-top-sm am-padding-right-xs am-u-lg-1">
-			                    		  		     <span class="am-badge am-round am-text-secondary" title="阅览人数">
+			                    		  		     <span class="am-badge am-round am-text-secondary" title="{{ trans('bbs.view number') }}">
 			                            		  			@if ($singleTopic->view_count < 10)
 			                            		  			  &nbsp;&nbsp;{{ $singleTopic->view_count }}
 			                            		  			@else

@@ -47,7 +47,7 @@ class CreateNodesTable extends Migration {
 					'description' => 'Laravel是一套简洁、优雅的PHP Web开发框架(PHP Web Framework)。它可以让你从面条一样杂乱的代码中解脱出来；它可以帮你构建一个完美的网络APP，而且每行代码都可以简洁、富于表达力。',
 				],
 				'Composer & Packagist' => [
-					'slug'                => 'composer-and-packagist',
+					'slug'                => 'composer',
 					'description'         => 'Composer[1]是PHP中用来管理依赖（dependency）关系的工具。你可以在自己的项目中声明所依赖的外部工具库（libraries），Composer会帮你安装这些依赖的库文件。',
 				],
 				'重构'       => [
@@ -67,7 +67,7 @@ class CreateNodesTable extends Migration {
 					'description' => '',
 				],
 				'开源项目' => [
-					'slug'        => 'opensource-project',
+					'slug'        => 'opensource',
 					'description' => '',
 				],
 			],
@@ -98,24 +98,28 @@ class CreateNodesTable extends Migration {
 				],
 				'运维'       => [
 					'slug'        => 'operations',
-					'description' => '',
+					'description' => '运维',
 				],
 				'安全'       => [
 					'slug'        => 'security',
-					'description' => '',
+					'description' => '安全',
 				],
 				'云服务'    => [
 					'slug'        => 'cloud-service',
 					'description' => '云服务开发这一概念包含几种不同的开发类型 - 软件即服务(SaaS), 平台即服务(PaaS), Web服务, 按需(on—demand)计算',
 				],
+				'前端'    => [
+					'slug'        => 'UI',
+					'description' => 'HTML,CSS,javascript,等相关技术',
+				],
 			],
 			'Mobile'        => [
 				'iPhone'       => [
-					'slug'        => 'iphone-development',
+					'slug'        => 'iphone',
 					'description' => 'iPhone 开发',
 				],
 				'Android'      => [
-					'slug'        => 'android-development',
+					'slug'        => 'android',
 					'description' => 'Android 开发',
 				],
 			],

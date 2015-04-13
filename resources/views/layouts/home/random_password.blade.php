@@ -3,7 +3,7 @@
  <body>
 
 
-  <p>{{ $user }}&nbsp;您好，请通过以下随机密码登录您的账户并进行密码修改：<span style="color: red">{{ $password }}</span></p>
+  <p>{{ $user }}&nbsp;，{{ trans('bbs.random password') }}：<span style="color: red">{{ $password }}</span></p>
 
 
  </body>

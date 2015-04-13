@@ -1,0 +1,63 @@
++--------+----------+-----------------------------------+-------------------------+-------------------------------------------------------------+------------+
+| Domain | Method   | URI                               | Name                    | Action                                                      | Middleware |
++--------+----------+-----------------------------------+-------------------------+-------------------------------------------------------------+------------+
+|        | GET|HEAD | /                                 | home                    | App\Http\Controllers\Home\HomeController@index              |            |
+|        | GET|HEAD | community/{arg?}/{pid?}           | home.community          | App\Http\Controllers\Home\HomeController@community          |            |
+|        | GET|HEAD | wiki                              | home.wiki               | App\Http\Controllers\Home\HomeController@wiki               |            |
+|        | GET|HEAD | about                             | home.about              | App\Http\Controllers\Home\HomeController@about              |            |
+|        | GET|HEAD | member                            | home.member             | App\Http\Controllers\Home\HomeController@member             |            |
+|        | GET|HEAD | documents                         | home.documents          | App\Http\Controllers\Home\HomeController@documents          |            |
+|        | GET|HEAD | markdowm                          | home.markdown           | App\Http\Controllers\Home\HomeController@markdown           |            |
+|        | POST     | view/markdowm/result              | home.viewMarkdownResult | App\Http\Controllers\Home\HomeController@viewMarkdownResult |            |
+|        | GET|HEAD | login                             | login                   | App\Http\Controllers\Home\HomeController@login              |            |
+|        | POST     | search                            | search.submmit          | App\Http\Controllers\Home\HomeController@search             |            |
+|        | GET|HEAD | search/{keyword}                  | search.result           | App\Http\Controllers\Home\HomeController@searchResult       |            |
+|        | GET|HEAD | nodes/{nid?}/{pid?}               | read.node               | App\Http\Controllers\Home\NodeController@index              |            |
+|        | GET|HEAD | read/nodes/{nid?}/{pid?}          | read.node               | App\Http\Controllers\Home\NodeController@index              |            |
+|        | GET|HEAD | vote/topics/{tid}                 | vote.topic              | App\Http\Controllers\Home\TopicController@vote              | auth       |
+|        | GET|HEAD | vote/up/topics/{tid}              | vote.up                 | App\Http\Controllers\Home\TopicController@voteUp            | auth       |
+|        | GET|HEAD | vote/down/topics/{tid}            | vote.down               | App\Http\Controllers\Home\TopicController@voteDown          | auth       |
+|        | GET|HEAD | vote/reply/{rid}                  | vote.reply              | App\Http\Controllers\Home\TopicController@voteReply         | auth       |
+|        | GET|HEAD | delete/reply/{rid}                | delete.reply            | App\Http\Controllers\Home\TopicController@deleteReply       | auth       |
+|        | GET|HEAD | delete/topic/{tid}                | delete.topic            | App\Http\Controllers\Home\TopicController@deleteTopic       | auth       |
+|        | GET|HEAD | edit/topic/{topic}                | edit.topic              | App\Http\Controllers\Home\TopicController@editTopic         | auth       |
+|        | POST     | edit/topic                        | edit.store              | App\Http\Controllers\Home\TopicController@update            | auth       |
+|        | POST     | reply/topic                       | reply.topic             | App\Http\Controllers\Home\TopicController@replyTopic        | auth       |
+|        | GET|HEAD | collect/{tid}                     | collect.topic           | App\Http\Controllers\Home\TopicController@collect           | auth       |
+|        | GET|HEAD | favorite/{tid}                    | favorite.topic          | App\Http\Controllers\Home\TopicController@favorite          | auth       |
+|        | GET|HEAD | read/topics/{tid}                 | read.topic              | App\Http\Controllers\Home\TopicController@show              |            |
+|        | GET|HEAD | post/topic                        | home.post               | App\Http\Controllers\Home\HomeController@post               | auth       |
+|        | POST     | post/topic                        | post.topic              | App\Http\Controllers\Home\TopicController@create            |            |
+|        | POST     | upload/topicImage                 | upload.topicImage       | App\Http\Controllers\Home\TopicController@uploadTopicImage  | auth       |
+|        | GET|HEAD | read/users/{uid}                  | read.user               | App\Http\Controllers\Home\UserController@index              |            |
+|        | POST     | regist                            | regist                  | App\Http\Controllers\Home\UserController@create             |            |
+|        | GET|HEAD | user/active/{user_name}/{time}    | user.active             | App\Http\Controllers\Home\UserController@active             |            |
+|        | POST     | login                             | user.login              | App\Http\Controllers\Home\UserController@login              |            |
+|        | GET|HEAD | edit/user/{user}                  | edit.user               | App\Http\Controllers\Home\UserController@edit               | auth       |
+|        | GET|HEAD | logout                            | logout                  | App\Http\Controllers\Home\UserController@logout             |            |
+|        | POST     | update/avatar                     | update.avatar           | App\Http\Controllers\Home\UserController@updateAvatar       | auth       |
+|        | POST     | upload/avatar                     | upload.avatar           | App\Http\Controllers\Home\UserController@uploadAvatar       | auth       |
+|        | POST     | update/profile                    | update.profile          | App\Http\Controllers\Home\UserController@updateProfile      | auth       |
+|        | POST     | update/password                   | update.password         | App\Http\Controllers\Home\UserController@updatePassword     | auth       |
+|        | POST     | validate/user/exist               | user.exist              | App\Http\Controllers\Home\UserController@exist              |            |
+|        | POST     | user/set                          | user.set                | App\Http\Controllers\Home\UserController@set                |            |
+|        | GET|HEAD | admin                             | admin                   | App\Http\Controllers\Admin\AdminController@index            | admin      |
+|        | GET|HEAD | admin/autofix                     | admin.autofix           | App\Http\Controllers\Admin\AdminController@autofix          | admin      |
+|        | GET|HEAD | admin/update/site_state           | update.site_state       | App\Http\Controllers\Admin\AdminController@updateSite       | admin      |
+|        | GET|HEAD | admin/tip/delete/{bid}            | tip.delete              | App\Http\Controllers\Admin\AdminController@deleteTip        | admin      |
+|        | POST     | admin/tip/add                     | tip.add                 | App\Http\Controllers\Admin\AdminController@addTip           | admin      |
+|        | POST     | admin/about/update                | update.about            | App\Http\Controllers\Admin\AdminController@updateAbout      | admin      |
+|        | GET|HEAD | admin/document/delete/{did}       | delete.document         | App\Http\Controllers\Admin\AdminController@deleteDocument   | admin      |
+|        | POST     | admin/document/add                | add.document            | App\Http\Controllers\Admin\AdminController@addDocument      | admin      |
+|        | POST     | admin/markdowm/update             | update.markdowm         | App\Http\Controllers\Admin\AdminController@updateMarkdown   | admin      |
+|        | POST     | admin/node/add                    | add.node                | App\Http\Controllers\Admin\AdminController@addNode          | admin      |
+|        | POST     | admin/user/ban                    | ban.user                | App\Http\Controllers\Admin\AdminController@banUser          | admin      |
+|        | POST     | admin/user/send/email             | send.active.email       | App\Http\Controllers\Admin\AdminController@sendEmail        | admin      |
+|        | POST     | admin/user/active                 | active.user             | App\Http\Controllers\Admin\AdminController@activeUser       | admin      |
+|        | GET|HEAD | admin/topic/excellent/{tid}       | excellent.topic         | App\Http\Controllers\Admin\AdminController@excellentTopic   | admin      |
+|        | GET|HEAD | admin/topic/stick/{tid}           | stick.topic             | App\Http\Controllers\Admin\AdminController@stickTopic       | admin      |
+|        | GET|HEAD | admin/topic/delete/{tid}          | admin.delete.topic      | App\Http\Controllers\Admin\AdminController@deleteTopic      | admin      |
+|        | GET|HEAD | admin/topic/recommend/{tid}       | recommend.topic         | App\Http\Controllers\Admin\AdminController@recommendTopic   | admin      |
+|        | GET|HEAD | admin/topic/admin/recommend/{tid} | admin.recommend         | App\Http\Controllers\Admin\AdminController@adminRecommend   | admin      |
+|        | GET|HEAD | admin/topic/wiki/{tid}            | wiki.topic              | App\Http\Controllers\Admin\AdminController@wikiTopic        | admin      |
++--------+----------+-----------------------------------+-------------------------+-------------------------------------------------------------+------------+

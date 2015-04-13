@@ -33,9 +33,9 @@ class CreateWebsiteTable extends Migration {
     	\DB::table('site_state')->insert(['day' => 'today',
     		                              'register_count' => '120',
     		                              'topic_count' =>'679',
-    		                              'avatars_count' => '44',
+    		                              'avatars_count' => '59',
     		                              'reply_count' => '564',
-    		                              'emjoy_count' => 18]);
+    		                              'emjoy_count' => 75]);
     }
 
 	/**

@@ -9,7 +9,7 @@
     <div class="am-g div-custom div-color-white markdown" id="parent">
           <div class="am-panel am-panel-default border-radius" style="margin-bottom:0px">
                 <div class="am-panel-hd">
-                      <p class="am-panel-title am-kai" data-am-collapse="{parent: '#parent', target: '#markdown'}">Markdown(点击展开)</p>
+                      <p class="am-panel-title am-kai" data-am-collapse="{parent: '#parent', target: '#markdown'}">Markdown({{ trans('bbs.click to expand') }})</p>
                 </div>
                 <div id="markdown" class="am-panel-collapse am-collapse">
                        <div class="am-panel-bd am-text-left">
@@ -22,7 +22,7 @@
     <div class="am-g div-custom div-color-white markdown">
          <div class="am-panel am-panel-default border-radius" style="margin-bottom:0px">
              <div class="am-panel-hd">
-                      <p class="am-panel-title am-kai am-text-left am-text-warning">Markdown在线编辑：</p>
+                      <p class="am-panel-title am-kai am-text-left am-text-warning">Markdown {{ trans('bbs.edit online') }}：</p>
              </div>
              <div class="am-panel-bd am-text-left">
                      <form class="am-form am-form-horizontal" method="post" action="{{ action('Home\HomeController@viewMarkdownResult') }}">
@@ -32,7 +32,7 @@
                                    <textarea class="am-u-sm-10" rows="20" name="markdownInput">{!! $example !!}</textarea>
                           </div>
                           </fieldset>
-                           <button type="submit"  class="am-btn am-btn-success border-radius">查看结果</button>
+                           <button type="submit"  class="am-btn am-btn-success border-radius">{{  trans('bbs.view result')  }}</button>
                       </form>
              </div>
          </div>

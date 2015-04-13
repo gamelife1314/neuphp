@@ -23,7 +23,7 @@ class UserController extends Controller {
 
    public function __construct()
    {
-    $this->middleware('auth',['only' => ['edit','updateAvatar','uploadAvatar','updateProfile','updatePassword','resetPassword']]);
+    $this->middleware('auth',['only' => ['edit','updateAvatar','uploadAvatar','updateProfile','updatePassword']]);
    }
 
 	/**
@@ -34,18 +34,19 @@ class UserController extends Controller {
 	public function index($id)
 	{
         //取得用户信息
-		$userInf = DB::table('users')->where('id','=', $id)->get();
+		    $userInf = DB::table('users')->where('id','=', $id)->get();
 
-        //取得用户收藏帖子
+        if ($userInf[0]->is_banned == 0) {
+          //取得用户收藏帖子
         $collectTopicID = DB::table('collects')->where('collects.user_id', '=', $id)
                                                ->orderBy('id','desc')
                                                ->select('topic_id')
                                                ->get();
         $collectTopics = [];
         foreach ($collectTopicID as $key => $value) {
-        	$topic = DB::table('topics')->where('id', '=', $value->topic_id)
-        	                            ->select('id','title','created_at')
-        	                            ->get();
+          $topic = DB::table('topics')->where('id', '=', $value->topic_id)
+                                      ->select('id','title','created_at')
+                                      ->get();
           if ($topic[0] != null)
                $collectTopics[] = array_shift($topic);
         }
@@ -59,9 +60,9 @@ class UserController extends Controller {
 
         $replies = [];
         foreach ($repliesID as $key => $value) {
-        	$topic =  DB::table('topics')->where('id', '=', $value->topic_id)
-        	                            ->select('id','title','user_id')
-        	                            ->get();
+          $topic =  DB::table('topics')->where('id', '=', $value->topic_id)
+                                      ->select('id','title','user_id')
+                                      ->get();
           if(isset($topic[0])){
               $topic_user = DB::table('users')->where('id','=',$topic[0]->user_id)
                                               ->select('id','name')
@@ -93,12 +94,24 @@ class UserController extends Controller {
         }
 
 
-		    return view('layouts.home.user')->with('userInf',$userInf)
-		                                    ->with('collectTopics',$collectTopics)
-		                                    ->with('replies',$replies)
-		                                    ->with('posts',$posts)
-		                                    ->with('pagination',$repliesID)
+        return view('layouts.home.user')->with('userInf',$userInf)
+                                        ->with('collectTopics',$collectTopics)
+                                        ->with('replies',$replies)
+                                        ->with('posts',$posts)
+                                        ->with('pagination',$repliesID)
                                         ->with('favorites_topics',$favorites_topics);
+        }
+          else {
+
+             $returnInf = [];
+
+             Session::flash('operationResult','am-alert-warning');
+             $returnInf[] = trans('bbs.This user has benn forbidden to login!');
+             Session::flash('returnInf',$returnInf);
+
+            return redirect()->route('home.community');
+
+          }
 	}
 
 	/**
@@ -124,13 +137,22 @@ class UserController extends Controller {
 		}
 		else {
 
-			$url = route('user.active',Crypt::encrypt($input['user_name']));
+			$url = route('user.active',['user_name' => Crypt::encrypt($input['user_name']),'time' => Crypt::encrypt(time())]);
 
-			 User::create([
+			$user =  User::create([
 		   	           'name' => $input['user_name'],
 		   	           'email' => $input['email'],
 		   	           'password' => Hash::make($input['password']),
 		   	           'image_url' => 'image/avatars/img'.rand(1,BBS::find(1)->avatars_count ?: 15).'.png']);
+      if (!isset($user->id)) {
+
+         Session::flash('operationResult','am-alert-warning');
+         $returnInf[] = trans('bbs.Something Wrong With Our Server!');
+         Session::flash('returnInf',$returnInf);
+
+        return redirect()->back();
+
+      }
 
        BBS::find(1)->increment('register_count');
 
@@ -138,8 +160,6 @@ class UserController extends Controller {
                 {
                  $message->to($_POST['email'])->subject('NEU PHP 账户激活');
                 });
-
-       DB::table('site_state')->where('id')->increment('register_count');
 
          $returnInf = [];
          array_push($returnInf,trans('bbs.Regist Successfully!',['name' => $input['user_name']]));
@@ -154,21 +174,26 @@ class UserController extends Controller {
       * active account
       * @return [type] [description]
       */
-     public function active($user_name)
+     public function active($user_name,$time)
      {
        $user_name = Crypt::decrypt($user_name);
+       $returnInf = [];
 
-       $user = User::where('name','=',$user_name)->firstOrFail();
-       if (!$user->active) {
-       	   $user->active = 1;
-       	   $user->save();
+       if (time() - Crypt::decrypt($time)  < 86400) {
+          $user = User::where('name','=',$user_name)->firstOrFail();
+             if (!$user->active) {
+                 $user->active = 1;
+                 $user->save();
+             }
+           array_push($returnInf,trans('bbs.Successfully Activated!'));
+           Session::flash('operationResult','am-alert-success');
+       }
+       else {
+        $returnInf[] = trans('bbs.Invalid Link!');
+         Session::flash('operationResult','am-alert-warning');
        }
 
-         $returnInf = [];
-         array_push($returnInf,trans('bbs.Successfully Activated!'));
          Session::flash('returnInf',$returnInf);
-         Session::flash('operationResult','am-alert-success');
-
          return redirect()->route('login');
      }
      /**
@@ -181,7 +206,7 @@ class UserController extends Controller {
       $returnInf = [];
       $input = BBS_Request::all();
 
-      if(Auth::attempt(['email' => $input['email'],'password' => $input['password'],'active' => '1','is_banned' => "0"],isset($input['remember']) ? $input['remember'] : 'false'))
+      if(Auth::attempt(['email' => $input['email'],'password' => $input['password'],'active' => '1','is_banned' => "0"],isset($input['remember']) ? true : false))
      {
 
         array_push($returnInf,trans('bbs.Login Successfully!'));
@@ -199,26 +224,6 @@ class UserController extends Controller {
      	return redirect()->back();
      }
      }
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store()
-	{
-		//
-	}
-
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id)
-	{
-		//
-	}
 
 	/**
 	 * Show the form for editing the specified resource.
@@ -430,7 +435,7 @@ class UserController extends Controller {
   {
     $input = BBS_Request::all();
 
-    $rules = ['email' =>['email','required']];
+    $rules = ['email' =>['email','required'],'user_name' => ['required']];
 
     $validator = Validator::make($input, $rules);
 
@@ -450,14 +455,7 @@ class UserController extends Controller {
     }
     else {
 
-      if ($input['user_name'] == "") {
-
-         $user = User::where('email','=',$input['email'])->get();
-      }
-      else {
-
         $user = User::where('email','=',$input['email'])->where('name','=',$input['user_name'])->get();
-      }
 
       if (count($user) > 0) {
 
@@ -492,6 +490,22 @@ class UserController extends Controller {
         return redirect()->back();
       }
     }
+  }
+  /**
+   * [set description]
+   */
+  public function set()
+  {
+   if (BBS_Request::has('language')) {
+
+    $user = User::find(Auth::id());
+
+    $user->language = BBS_Request::input('language');
+
+    $user->save();
+   }
+
+   return redirect()->back();
   }
 	/**
 	 * Remove the specified resource from storage.

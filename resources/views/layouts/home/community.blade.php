@@ -11,10 +11,10 @@
       	<div class="am-u-sm-12 am-u-md-9 am-u-lg-9  community-u-body border-radius" > {{-- 左半部分开始 --}}
       		<div class="am-panel am-panel-default community-panel">
         			<div class="am-panel-hd am-text-right am-kai am-text-sm block-div">
-            			  <a href="{{ route('home.community',['arg' => 'recent']) }}" class="am-text-muted am-margin-right-xs"><span class="am-icon-clock-o">&nbsp;最近发表</a>
-            			  <a href="{{ route('home.community',['arg' => 'excellent']) }}" class="am-text-muted am-margin-right-xs"><span class="am-icon-heart">&nbsp;精华主题</a>
-            			  <a href="{{ route('home.community',['arg' => 'maxvote']) }}" class="am-text-muted am-margin-right-xs"><span class="am-icon-comment">&nbsp;最多投票</a>
-            			  <a href="{{ route('home.community',['arg' => 'nobodyview']) }}" class="am-text-muted am-margin-right-xs"><span class="am-icon-eye-slash">&nbsp;无人问津</a>
+            			  <a href="{{ route('home.community',['arg' => 'recent']) }}" class="am-text-muted am-margin-right-xs"><span class="am-icon-clock-o">&nbsp;{{ trans('bbs.Recent') }}</a>
+            			  <a href="{{ route('home.community',['arg' => 'excellent']) }}" class="am-text-muted am-margin-right-xs"><span class="am-icon-heart">&nbsp;{{ trans('bbs.Excellent') }}</a>
+            			  <a href="{{ route('home.community',['arg' => 'maxvote']) }}" class="am-text-muted am-margin-right-xs"><span class="am-icon-comment">&nbsp;{{ trans('bbs.Vote Most') }}</a>
+            			  <a href="{{ route('home.community',['arg' => 'nobodyview']) }}" class="am-text-muted am-margin-right-xs"><span class="am-icon-eye-slash">&nbsp;{{ trans('bbs.No view') }}</a>
         			</div>
       			<div class="am-panel-bd" style="padding-bottom:0px">
           			 <div class="am-g">
@@ -27,21 +27,21 @@
                   		  			      <div class="am-u-md-12">
                     		  				        <a href="{{ route('read.topic',$singleTopic->id) }}" class="am-text-default am-text-sm">
                                             @if ($singleTopic->stick == 1)
-                                             <span class="am-badge am-badge-success am-radius am-text-xs">置顶</span>
+                                             <span class="am-badge am-badge-success am-radius am-text-xs">{{ trans('bbs.stick') }}</span>
                                             @elseif ($singleTopic->recommend == 1)
-                                              <span class="am-badge am-badge-secondary am-radius am-text-xs">推荐</span>
+                                              <span class="am-badge am-badge-secondary am-radius am-text-xs">{{ trans('bbs.recommend') }}</span>
                                             @endif
                     		  				          {{ $singleTopic->title }}
                                          </a>
                   		  			     </div>
                   		  			     <div class="am-u-md-12 am-text-muted am-text-xs am-text-truncate">
                       		  			       <a href="{{ route('vote.topic',$singleTopic->id) }}" class="am-text-muted"><span class="am-icon-thumbs-o-up">&nbsp;{{ $singleTopic->vote_count }}</span></a>&nbsp;•
-                      		  			       <a href="{{ route('read.node',$singleTopic->node_id) }}" class="am-text-muted">{{ $singleTopic->node_name }}</a>&nbsp;•&nbsp;最后由&nbsp;
-                      		  			       <a href="{{ route('read.user',$singleTopic->last_reply_user_id) }}" class="am-text-muted">{{ $singleTopic->last_user_name }}</a>&nbsp;•&nbsp;<span title="{{ $singleTopic->created_at }}">{{$singleTopic->replyTime }}</span>前
+                      		  			       <a href="{{ route('read.node',$singleTopic->node_id) }}" class="am-text-muted">{{ $singleTopic->node_name }}</a>&nbsp;•&nbsp;{{ trans('bbs.finnaly by') }}&nbsp;
+                      		  			       <a href="{{ route('read.user',$singleTopic->last_reply_user_id) }}" class="am-text-muted">{{ $singleTopic->last_user_name }}</a>&nbsp;•&nbsp;<span title="{{ $singleTopic->created_at }}">{{$singleTopic->replyTime }}</span>{{ trans('bbs.ago') }}
                   		  			     </div>
                 		  		    </div>
                 		  		    <div class="am-u-md-1 am-u-sm-1 am-padding-top-sm am-padding-right-xs am-u-lg-1">
-                    		  		     <span class="am-badge am-round am-text-secondary" title="阅览人数">
+                    		  		     <span class="am-badge am-round am-text-secondary" title="{{ trans('bbs.view number') }}">
                             		  			@if ($singleTopic->view_count < 10)
                             		  			  &nbsp;&nbsp;{{ $singleTopic->view_count }}
                             		  			@else

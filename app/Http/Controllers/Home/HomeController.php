@@ -10,6 +10,7 @@ use \DB;
 use \Session;
 use \Request;
 use App\Node;
+use \App;
 
 class HomeController extends Controller {
 
@@ -29,20 +30,22 @@ class HomeController extends Controller {
     // if (Auth::check() && Auth::user()->is_banned)
 
     //         Auth::logout();
+     // App::setLocale('en');
 
 		$excellenTopics = DB::table('topics') ->where('is_excellent','=', '1')
 		                                        ->leftJoin('users', 'topics.user_id', '=', 'users.id')
 		                                        ->leftJoin('nodes','topics.node_id', '=', 'nodes.id')
 		                                        ->leftJoin('users as last_reply_user','topics.last_reply_user_id','=','last_reply_user.id')
 		                                        ->orderBy('topics.id','DESC')
-		                                        ->select('topics.*','users.image_url as user_image_url','nodes.name as node_name','last_reply_user.name as last_user_name')
+		                                        ->select('topics.*','users.image_url as user_image_url','nodes.name as node_name','last_reply_user.name as last_user_name','nodes.slug as node_slug')
 		                                        ->take(20)
 		                                        ->get();
     foreach ($excellenTopics as  $value) {
       $value->postTime = Common::calculateTopicTime(time() - strtotime($value->updated_at));
     }
 
-		return view('layouts.home.index')->with('excellenTopics',$excellenTopics);
+		return view('layouts.home.index')->with('excellenTopics',$excellenTopics)
+                                     ->with('nodes',DB::table('nodes')->get());
 	}
 
 	/**
@@ -65,6 +68,7 @@ class HomeController extends Controller {
                                    ->leftJoin('users as last_reply_user','topics.last_reply_user_id','=','last_reply_user.id')
                                    ->orderBy('topics.stick','desc')
                                    ->orderBy('topics.recommend','desc')
+                                   ->orderBy('updated_at','desc')
                                    ->orderBy('topics.view_count','desc')
                                    ->select('topics.*','users.image_url as user_image_url','nodes.name as node_name','last_reply_user.name as last_user_name')
                                    ->skip(($pid - 1) * $pageSize)
@@ -117,17 +121,17 @@ class HomeController extends Controller {
                                    ->take($pageSize)
                                    ->get();
         }
-//计算出分页数目
+
         $pageNumber = ceil($topicCount / $pageSize);
-//获得公告内容
+
     	$tips = DB::table("tips")->get();
-//获得推荐内容
+
     	$recommend = DB::table('topics')->where('is_right_recommend','=','1')
-    	                                 ->orderBy('id','desc')
+    	                                 ->orderBy('updated_at','desc')
     	                                 ->select('id','title')
     	                                 ->take(5)
     	                                 ->get();
-//获得站点信息
+
     $siteInf = DB::table('site_state')->first();
     $max_pid = $pageNumber > ($pid + 4) ? ($pid + 4) : $pageNumber;
     foreach ($returnTopics as  $value) {
@@ -142,7 +146,8 @@ class HomeController extends Controller {
     	                                 ->with('pageNumber',$pageNumber)
                                        ->with('siteInf',$siteInf)
                                        ->with('siteNode',"community")
-                                       ->with('topicCount',$topicCount);
+                                       ->with('topicCount',$topicCount)
+                                       ->with('nodes',DB::table('nodes')->get());
     }
 
     /**
@@ -238,22 +243,75 @@ class HomeController extends Controller {
    */
   public function post()
   {
-      //获得公告内容
+
        $tips = DB::table("tips")->get();
-         //获得推荐内容
+
        $recommend = DB::table('topics')->where('is_right_recommend','=','1')
-                                       ->orderBy('id','desc')
+                                       ->orderBy('updated_at','desc')
                                        ->select('id','title')
                                        ->take(5)
                                        ->get();
-        //获得站点信息
+
         $siteInf = DB::table('site_state')->first();
 
-       $nodes = Node::where('parent_node','!=','null')->get();
+        $nodes = Node::where('parent_node','!=','null')->get();
 
         return view('layouts.home.post_topic')->with("tips",$tips)
                                               ->with('recommend',$recommend)
                                               ->with('siteInf',$siteInf)
-                                              ->with('nodes',$nodes);
+                                              ->with('nodes',$nodes)
+                                              ->with('nodes',DB::table('nodes')->get());
+  }
+ /**
+  * [search description]
+  * @return [type] [description]
+  */
+  public function search()
+  {
+
+   if (Request::has('keyword')) {
+
+      return redirect()->route('search.result',['keyword' => Request::input('keyword')]);
+
+   }
+
+   else {
+
+    return redirect()->back();
+
+   }
+  }
+  /**
+   * [searchResult description]
+   * @return [type] [description]
+   */
+  public function searchResult($keyword)
+  {
+
+       $tips = DB::table("tips")->get();
+
+       $recommend = DB::table('topics')->where('is_right_recommend','=','1')
+                                       ->orderBy('updated_at','desc')
+                                       ->select('id','title')
+                                       ->take(5)
+                                       ->get();
+
+        $siteInf = DB::table('site_state')->first();
+
+        $nodes = Node::where('parent_node','!=','null')->get();
+
+        $searchs = DB::table('topics')->where('title','like',"%".$keyword."%")
+                                       ->orderBy('updated_at','desc')
+                                       ->select('id','title')
+                                       ->paginate(15);
+
+        return view('layouts.home.search')->with("tips",$tips)
+                                              ->with('recommend',$recommend)
+                                              ->with('siteInf',$siteInf)
+                                              ->with('nodes',$nodes)
+                                              ->with('nodes',DB::table('nodes')->get())
+                                              ->with('keyword',$keyword)
+                                              ->with('searchs',$searchs);
+
   }
 }

@@ -12,7 +12,7 @@
      <div class="am-panel am-panel-default border-radius" style="margin-bottom:0px">
 
            <div class="am-panel-hd">
-			       <p class="am-panel-title am-kai">在线文档&nbsp;<span class="am-icon-rss am-text-warning"></span></p>
+			       <p class="am-panel-title am-kai">{{ trans('bbs.Document Online!') }}&nbsp;<span class="am-icon-rss am-text-warning"></span></p>
 		   </div>
            <div class="am-panel-bd">
                 <div class="am-g home-excellent">
