@@ -91,15 +91,15 @@ class AdminController extends Controller {
       foreach (User::all() as $user) {
       	$user->topic_count >= 0 ?: $user->topic_count = 0;
       	$user->reply_count >= 0 ?: $user->reply_count = 0;
-      	// if ($user->active == 0) {
+      	if ($user->active == 0) {
 
-       //      $url = route('user.active',['user_name' => Crypt::encrypt($user->name),'time' => Crypt::encrypt(time())]);
-       //      Session::flash('email',$user->email);
-       //      @Mail::queue('layouts.home.active_view', ['user' => $user->name,'url' => $url], function($message)
-       //      {
-       //        $message->to(session('email'))->subject('NEU PHP 账户激活');
-       //      });
-      	// }
+            $url = route('user.active',['user_name' => Crypt::encrypt($user->name),'time' => Crypt::encrypt(time())]);
+            Session::flash('email',$user->email);
+            @Mail::queue('layouts.home.active_view', ['user' => $user->name,'url' => $url], function($message)
+            {
+              $message->to(session('email'))->subject('NEU PHP 账户激活');
+            });
+      	}
         $user->save();
 
       }
