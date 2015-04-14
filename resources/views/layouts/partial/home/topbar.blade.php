@@ -1,6 +1,6 @@
 <header class="am-topbar topbar-color-custom am-padding-left-xl am-padding-right-xl">
   <h1 class="am-topbar-brand">
-    <a href="/">NEU PHP</a>
+    <a href="{{ route('home') }}">NEU PHP</a>
   </h1>
 
   <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#doc-topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
@@ -32,7 +32,7 @@
             <a href="{{  route('logout') }}" class="am-margin-left-xs"><span class="am-icon-sign-out" title="退出"></span></a>
           </div>
         @else
-           <a href="/login" class="am-btn am-btn-secondary am-margin-top-xs border-radius am-padding-top-sm am-padding-bottom-xs"><i class="am-icon-drupal"></i>&nbsp;登录</a>
+           <a href="{{ route('login') }}" class="am-btn am-btn-secondary am-margin-top-xs border-radius am-padding-top-sm am-padding-bottom-xs"><i class="am-icon-drupal"></i>&nbsp;登录</a>
         @endif
     </div>
   </div>

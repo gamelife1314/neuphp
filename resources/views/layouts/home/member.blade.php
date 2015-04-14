@@ -16,7 +16,7 @@
           <div class="am-g">
               @foreach ($bbsMember as $index => $value)
                 <div class="am-u-sm-3 am-u-md-2 am-u-lg-1 am-margin-top-sm">
-                    <a href="/read/users/{{ $value->id }}">
+                    <a href="{{ route('read.user',$value->id) }}">
                        <img src="{{ asset($value->image_url) }}" alt="{{ $value->name }}" class="avatars am-radius am-img-thumbnail {{ $value->active == 1 ? ' ' : 'gray' }}" title="{{ $value->name }}{{ $value->active == 1 ? ' ' : '，未激活' }}">
                     </a>
                 </div>

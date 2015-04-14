@@ -57,7 +57,7 @@
 			           @endforeach
 				  </div> {{-- am-g --}}
 	         </div> {{-- panel-body --}}
-		  <a href="/community" class="am-fr am-margin-top-xs am-margin-bottom-xs am-margin-right am-text-sm">{{ trans('bbs.more exciting content') }}...</a>
+		  <a href="{{ route('home.community') }}" class="am-fr am-margin-top-xs am-margin-bottom-xs am-margin-right am-text-sm">{{ trans('bbs.more exciting content') }}...</a>
 	    </div>
   </div>
 
