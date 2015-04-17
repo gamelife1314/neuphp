@@ -8,7 +8,7 @@
 
 		       @for ($i = $current_pid; $i <= $max_pid; $i++)
 		            @if ($i != $current_pid)
-		                 <li><a href="/{{ $siteNode }}/{{ $arg }}/{{ $i }}" class="a-mg-rt-5">{{ $i }}</a></li>
+		                 <li><a href="{{ $siteNode }}/{{ $arg }}/{{ $i }}" class="a-mg-rt-5">{{ $i }}</a></li>
 		            @else
 		                 <li class="am-active"><a href="/{{ $siteNode }}/{{ $arg }}/{{ $i }}" class="a-mg-rt-5">{{ $i }}</a></li>
 		            @endif
@@ -16,7 +16,7 @@
 
 		      @if ($pageNumber > $max_pid)
 		             <li class="am-disabled"><a href="#" class="a-mg-rt-5">...</a></li>
-		             <li><a href="/{{ $siteNode }}/{{ $arg }}/{{ $pageNumber }}" class="a-mg-rt-5">{{ $pageNumber }}</a></li>
+		             <li><a href="{{ $siteNode }}/{{ $arg }}/{{ $pageNumber }}" class="a-mg-rt-5">{{ $pageNumber }}</a></li>
 		      @endif
 
 		     @if ($current_pid == $max_pid)
