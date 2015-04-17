@@ -131,8 +131,8 @@ class AdminController extends Controller {
      $site_state->register_count == User::count() ?: $site_state->register_count = User::count();
      $site_state->topic_count == Topic::count() ?: $site_state->topic_count = Topic::count();
      $site_state->reply_count == Reply::count() ?: $site_state->reply_count = Reply::count();
-     $site_state->avatars_count = count(scandir(public_path().'/image/avatars')) - 2;
-     $site_state->emjoy_count = count(scandir(public_path().'/image/emjoy')) - 2;
+     $site_state->avatars_count = count(scandir(public_path().'\image\avatars')) - 2;
+     $site_state->emjoy_count = count(scandir(public_path().'\image\emjoy')) - 2;
      $site_state->save();
 
     $returnInf = [];

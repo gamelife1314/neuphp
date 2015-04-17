@@ -323,15 +323,15 @@ class UserController extends Controller {
 
     } else {
 
-       if(!is_dir(public_path()."/uploads"))
+       if(!is_dir(public_path()."\uploads"))
 
-              mkdir(public_path()."/uploads");
+              mkdir(public_path()."\uploads");
 
-       if(!is_dir(public_path()."/uploads/avatars"))
+       if(!is_dir(public_path()."\uploads\avatars"))
 
-             mkdir(public_path()."/uploads/avatars");
+             mkdir(public_path()."\uploads\avatars");
 
-        $file = fopen(public_path()."/uploads/avatars"."/img".$user_id.".".$ext, "w");
+        $file = fopen(public_path()."\uploads\avatars"."\img".$user_id.".".$ext, "w");
 
         if (fwrite($file, base64_decode($img_content))) {
 
