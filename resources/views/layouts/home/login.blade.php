@@ -22,7 +22,7 @@
 			  <ul class="am-tabs-nav am-nav am-nav-tabs am-kai">
 				    <li class="am-active"><a href="#tab1">{{ trans('bbs.login') }}</a></li>
 				    <li><a href="#tab2">{{ trans('bbs.regist') }}</a></li>
-				    <li><a href="#tab3">{{ trans('bbs.forget password') }}</a></li>
+				    <!-- <li><a href="#tab3">{{ trans('bbs.forget password') }}</a></li> -->
 			  </ul>
 
 			  <div class="am-tabs-bd" style="min-height: 256px">
@@ -99,7 +99,7 @@
 						</form>
 
 				    </div>
-				    <div class="am-tab-panel am-fade am-text-left" id="tab3">
+				  <!--   <div class="am-tab-panel am-fade am-text-left" id="tab3">
 				    	<form class="am-form am-form-horizontal" method="post" action="{{ action('Home\UserController@exist') }}">
 				    	   <input type="hidden" name="_token" value="{{ csrf_token() }}">
 				    	   <div class="am-form-group">
@@ -125,7 +125,7 @@
 				    	<div class="am-u-sm-12 am-text-left am-margin-top">
 				    		<p class="am-kai am-text-muted">{{ trans('bbs.reset tips') }}</p>
 				    	</div>
-				    </div>
+				    </div> -->
 	           </div>
             </div>
       </div>

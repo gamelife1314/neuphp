@@ -143,7 +143,8 @@ class UserController extends Controller {
 		   	           'name' => $input['user_name'],
 		   	           'email' => $input['email'],
 		   	           'password' => Hash::make($input['password']),
-		   	           'image_url' => 'image/avatars/img'.rand(1,BBS::find(1)->avatars_count ?: 15).'.png']);
+		   	           'image_url' => 'image/avatars/img'.rand(1,BBS::find(1)->avatars_count ?: 15).'.png',
+                   'active' => 1]);
       if (!isset($user->id)) {
 
          Session::flash('operationResult','am-alert-warning');
@@ -156,10 +157,10 @@ class UserController extends Controller {
 
        BBS::find(1)->increment('register_count');
 
-       Mail::queue('layouts.home.active_view', ['user' => $input['user_name'],'url' => $url], function($message)
-                {
-                 $message->to($_POST['email'])->subject('NEU PHP 账户激活');
-                });
+       // Mail::queue('layouts.home.active_view', ['user' => $input['user_name'],'url' => $url], function($message)
+       //          {
+       //           $message->to($_POST['email'])->subject('NEU PHP 账户激活');
+       //          });
 
          $returnInf = [];
          array_push($returnInf,trans('bbs.Regist Successfully!',['name' => $input['user_name']]));
