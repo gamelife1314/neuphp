@@ -13,6 +13,7 @@
   <meta name="keywords" content="markdown在线编辑">
 
   <meta name="keywords" content="NEUPHP官方网站">
+  <meta name="baidu-site-verification" content="yvR9i8VqFH" />
 
   <!-- Set render engine for 360 browser -->
   <meta name="renderer" content="webkit">
